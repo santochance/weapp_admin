@@ -24,11 +24,13 @@ export async function removeRule(params) {
 }
 
 export async function addRule(params) {
+  console.log('addRule params:', params);
   return request('/api/rule', {
     method: 'POST',
     body: {
-      ...params,
-      method: 'post',
+      ...params.entry,
+      // ...params,
+      // method: 'post',
     },
   });
 }

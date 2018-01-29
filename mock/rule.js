@@ -1,4 +1,5 @@
 import { getUrlParams } from './utils';
+import util from 'util'
 
 // mock tableListDataSource
 let tableListDataSource = [];
@@ -20,7 +21,8 @@ for (let i = 0; i < 46; i += 1) {
   });
 }
 
-export function getRule(req, res, u) {
+export function getRule(req, res, u, b) {
+  console.log('u, b:', typeof u, typeof b);
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -67,6 +69,7 @@ export function getRule(req, res, u) {
       pageSize,
       current: parseInt(params.currentPage, 10) || 1,
     },
+    req: util.inspect(req),
   };
 
   if (res && res.json) {

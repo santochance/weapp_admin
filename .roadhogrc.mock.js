@@ -8,6 +8,7 @@ import { getProfileAdvancedData } from './mock/profile';
 import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
 import axios from 'axios';
+import util from 'util';
 
 const HOST = 'https://vc-weapp.leanapp.cn';
 
@@ -54,29 +55,47 @@ const proxy = {
   // 'GET /api/rule': getRule,
   'GET /api/rule': (req, res) => {
     axios(HOST + '/tutors')
-      .then(results => {
+      .then(rs => {
         res.send({
-          message: results.data.message,
-          list: results.data.data,
+          message: rs.data.message,
+          list: rs.data.data,
           pagination: {}
         });
       })
       .catch(err => {
         res.send({
-          err,
-          list: [],
-          pagination: {},
+          message: 'request failed',
         });
       });
   },
-  'POST /api/rule': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRule,
+  // 'POST /api/rule': {
+  //   $params: {
+  //     pageSize: {
+  //       desc: '分页',
+  //       exp: 2,
+  //     },
+  //   },
+  //   $body: postRule,
+  // },
+  'POST /api/rule': (req, res) => {
+    axios.post(HOST + '/tutors', req.body)
+      .then(rs => {
+        res.send({
+          message: rs.data.message,
+          entry: rs.data.data,
+          pagination: {},
+        });
+      })
+      .catch(err => {
+        res.send({
+          message: 'request failed',
+        });
+      });
+    // res.send({
+    //   body: util.inspect(req, { depth: 1 }),
+    //   list: [],
+    //   pagination: {},
+    // });
   },
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });

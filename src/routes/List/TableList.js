@@ -1,9 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message, /* Badge,  */Divider, Popconfirm } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, /* Modal, message, Badge,  */Divider, Popconfirm } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import ModalForm from '../../components/ModalForm';
 
 import styles from './TableList.less';
 
@@ -117,7 +118,7 @@ const columns = [
   },
 ];
 
-const CreateForm = Form.create()((props) => {
+/* const CreateForm = Form.create()((props) => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -145,7 +146,7 @@ const CreateForm = Form.create()((props) => {
       </FormItem>
     </Modal>
   );
-});
+}); */
 
 @connect(({ rule, loading }) => ({
   rule,
@@ -157,6 +158,7 @@ export default class TableList extends PureComponent {
     modalVisible: false,
     modalTitle: '',
     modalData: undefined,
+    modalChangedKeys: [],
     expandForm: false,
     selectedRows: [],
     formValues: {},
@@ -268,25 +270,68 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleModalVisible = (flag) => {
-    this.setState({
-      modalVisible: !!flag,
-    });
-  }
+  // handleModalVisible = (flag) => {
+  //   this.setState({
+  //     modalVisible: !!flag,
+  //   });
+  // }
 
-  handleAdd = (fields) => {
+  // handleAdd = (fields) => {
+  //   this.props.dispatch({
+  //     type: 'rule/add',
+  //     payload: {
+  //       description: fields.desc,
+  //     },
+  //   });
+
+  //   message.success('添加成功');
+  //   this.setState({
+  //     modalVisible: false,
+  //   });
+  // }
+
+  handleModalOk = (formData) => {
+    // 提取新增或更新内容
+    let entry;
+    if (this.state.modalData) {
+      entry = this.state.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
+    } else {
+      entry = formData;
+    }
+    console.log('entry:', entry);
+
     this.props.dispatch({
       type: 'rule/add',
       payload: {
-        description: fields.desc,
+        sortKey: 'tutors',
+        objectId: this.state.modalData,
+        entry,
       },
     });
 
-    message.success('添加成功');
+    this.handleModalVisible(false);
+  }
+
+  handleModalVisible = (flag, data) => {
     this.setState({
-      modalVisible: false,
+      modalVisible: !!flag,
+      modalTitle: flag ? data ? '修改' : '新建' : '',
+      modalData: data,
+      modalChangedKeys: [],
     });
   }
+
+  handleModalDataChange = (key) => {
+    if (this.state.modalData) {
+      const { modalChangedKeys } = this.state;
+      if (modalChangedKeys.indexOf(key) < 0) {
+        this.setState({
+          modalChangedKeys: [...modalChangedKeys, key],
+        });
+      }
+    }
+  }
+
 
   renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;
@@ -402,7 +447,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
@@ -411,10 +456,10 @@ export default class TableList extends PureComponent {
       </Menu>
     );
 
-    const parentMethods = {
-      handleAdd: this.handleAdd,
-      handleModalVisible: this.handleModalVisible,
-    };
+    // const parentMethods = {
+    //   handleAdd: this.handleAdd,
+    //   handleModalVisible: this.handleModalVisible,
+    // };
 
     return (
       <PageHeaderLayout title="查询表格">
@@ -450,10 +495,20 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
+        <ModalForm
+          modalTitle={modalTitle}
+          modalVisible={modalVisible}
+          onModalOk={this.handleModalOk}
+          onModalCancel={() => this.handleModalVisible(false)}
+          data={modalData}
+          onModalDataChange={this.handleModalDataChange}
+        />
+        {/*
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
         />
+        */}
       </PageHeaderLayout>
     );
   }
