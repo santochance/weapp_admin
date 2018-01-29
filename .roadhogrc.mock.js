@@ -7,6 +7,9 @@ import { getProfileBasicData } from './mock/profile';
 import { getProfileAdvancedData } from './mock/profile';
 import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
+import axios from 'axios';
+
+const HOST = 'https://vc-weapp.leanapp.cn';
 
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
@@ -48,7 +51,24 @@ const proxy = {
   }],
   'GET /api/project/notice': getNotice,
   'GET /api/activities': getActivities,
-  'GET /api/rule': getRule,
+  // 'GET /api/rule': getRule,
+  'GET /api/rule': (req, res) => {
+    axios(HOST + '/tutors')
+      .then(results => {
+        res.send({
+          message: results.data.message,
+          list: results.data.data,
+          pagination: {}
+        });
+      })
+      .catch(err => {
+        res.send({
+          err,
+          list: [],
+          pagination: {},
+        });
+      });
+  },
   'POST /api/rule': {
     $params: {
       pageSize: {
