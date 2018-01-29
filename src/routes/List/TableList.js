@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message, Badge, Divider } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message, /* Badge,  */Divider, Popconfirm } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -10,64 +10,108 @@ import styles from './TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['关闭', '运行中', '已上线', '异常'];
+// const statusMap = ['default', 'processing', 'success', 'error'];
+// const status = ['关闭', '运行中', '已上线', '异常'];
+// const columns = [
+//   {
+//     title: '规则编号',
+//     dataIndex: 'no',
+//   },
+//   {
+//     title: '描述',
+//     dataIndex: 'description',
+//   },
+//   {
+//     title: '服务调用次数',
+//     dataIndex: 'callNo',
+//     sorter: true,
+//     align: 'right',
+//     render: val => `${val} 万`,
+//     // mark to display a total number
+//     needTotal: true,
+//   },
+//   {
+//     title: '状态',
+//     dataIndex: 'status',
+//     filters: [
+//       {
+//         text: status[0],
+//         value: 0,
+//       },
+//       {
+//         text: status[1],
+//         value: 1,
+//       },
+//       {
+//         text: status[2],
+//         value: 2,
+//       },
+//       {
+//         text: status[3],
+//         value: 3,
+//       },
+//     ],
+//     render(val) {
+//       return <Badge status={statusMap[val]} text={status[val]} />;
+//     },
+//   },
+//   {
+//     title: '更新时间',
+//     dataIndex: 'updatedAt',
+//     sorter: true,
+//     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+//   },
+//   {
+//     title: '操作',
+//     render: () => (
+//       <Fragment>
+//         <a href="">配置</a>
+//         <Divider type="vertical" />
+//         <a href="">订阅警报</a>
+//       </Fragment>
+//     ),
+//   },
+// ];
+
 const columns = [
   {
-    title: '规则编号',
-    dataIndex: 'no',
+    title: '编号',
+    dataIndex: 'id',
   },
+  {
+    title: '标题',
+    dataIndex: 'title',
+  },
+
   {
     title: '描述',
-    dataIndex: 'description',
+    dataIndex: 'desc',
   },
   {
-    title: '服务调用次数',
-    dataIndex: 'callNo',
-    sorter: true,
-    align: 'right',
-    render: val => `${val} 万`,
-    // mark to display a total number
-    needTotal: true,
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-      {
-        text: status[2],
-        value: 2,
-      },
-      {
-        text: status[3],
-        value: 3,
-      },
-    ],
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
+    title: '分类',
+    dataIndex: 'sname',
+    // sorter: true,
+    // align: 'right',
+    render: (text, record) => <a href={record.slink}>{text}</a>,
+    // // mark to display a total number
+    // needTotal: true,
   },
   {
     title: '更新时间',
     dataIndex: 'updatedAt',
-    sorter: true,
+    // sorter: true,
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   },
   {
     title: '操作',
-    render: () => (
+    key: 'action',
+    render: (text, record) => (
       <Fragment>
-        <a href="">配置</a>
+        <a href="">编辑</a>
         <Divider type="vertical" />
-        <a href="">订阅警报</a>
+        <Popconfirm title="是否要删除此行？" onConfirm={() => this.action('remove', { objectId: record.objectId })}>
+          <a>删除</a>
+        </Popconfirm>
       </Fragment>
     ),
   },
@@ -111,6 +155,8 @@ const CreateForm = Form.create()((props) => {
 export default class TableList extends PureComponent {
   state = {
     modalVisible: false,
+    modalTitle: '',
+    modalData: undefined,
     expandForm: false,
     selectedRows: [],
     formValues: {},
