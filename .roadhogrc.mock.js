@@ -78,11 +78,11 @@ const proxy = {
   //   $body: postRule,
   // },
   'POST /api/rule': (req, res) => {
-    axios.post(HOST + '/tutors', req.body)
+    axios.post(HOST + '/tutors?query', req.body)
       .then(rs => {
         res.send({
           message: rs.data.message,
-          entry: rs.data.data,
+          list: rs.data.data,
           pagination: {},
         });
       })
@@ -91,11 +91,6 @@ const proxy = {
           message: 'request failed',
         });
       });
-    // res.send({
-    //   body: util.inspect(req, { depth: 1 }),
-    //   list: [],
-    //   pagination: {},
-    // });
   },
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });
