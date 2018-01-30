@@ -17,6 +17,7 @@ export async function queryRule() {
 export async function removeRule(params) {
   return request(`/tutors/${params.objectId}?query`, {
     method: 'DELETE',
+    forwards: true,
   });
 }
 

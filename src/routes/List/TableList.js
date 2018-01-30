@@ -163,7 +163,7 @@ export default class TableList extends PureComponent {
         <Fragment>
           <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
           <Divider type="vertical" />
-          <Popconfirm title="是否要删除此行？" onConfirm={() => this.action('remove', { objectId: record.objectId })}>
+          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
             <a>删除</a>
           </Popconfirm>
         </Fragment>
@@ -330,6 +330,15 @@ export default class TableList extends PureComponent {
         });
       }
     }
+  }
+  handleRemove = ({ objectId }) => {
+    this.props.dispatch({
+      type: 'rule/remove',
+      payload: {
+        sortKey: 'tutors',
+        objectId,
+      },
+    });
   }
 
 
