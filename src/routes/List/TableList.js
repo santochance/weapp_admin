@@ -74,50 +74,6 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 //   },
 // ];
 
-const columns = [
-  {
-    title: '编号',
-    dataIndex: 'id',
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-  },
-
-  {
-    title: '描述',
-    dataIndex: 'desc',
-  },
-  {
-    title: '分类',
-    dataIndex: 'sname',
-    // sorter: true,
-    // align: 'right',
-    render: (text, record) => <a href={record.slink}>{text}</a>,
-    // // mark to display a total number
-    // needTotal: true,
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'updatedAt',
-    // sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-      <Fragment>
-        <a href="">编辑</a>
-        <Divider type="vertical" />
-        <Popconfirm title="是否要删除此行？" onConfirm={() => this.action('remove', { objectId: record.objectId })}>
-          <a>删除</a>
-        </Popconfirm>
-      </Fragment>
-    ),
-  },
-];
-
 /* const CreateForm = Form.create()((props) => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -170,6 +126,50 @@ export default class TableList extends PureComponent {
       type: 'rule/fetch',
     });
   }
+
+  columns = [
+    {
+      title: '编号',
+      dataIndex: 'id',
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
+
+    {
+      title: '描述',
+      dataIndex: 'desc',
+    },
+    {
+      title: '分类',
+      dataIndex: 'sname',
+      // sorter: true,
+      // align: 'right',
+      render: (text, record) => <a href={record.slink}>{text}</a>,
+      // // mark to display a total number
+      // needTotal: true,
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      // sorter: true,
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <Fragment>
+          <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
+          <Divider type="vertical" />
+          <Popconfirm title="是否要删除此行？" onConfirm={() => this.action('remove', { objectId: record.objectId })}>
+            <a>删除</a>
+          </Popconfirm>
+        </Fragment>
+      ),
+    },
+  ];
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -304,7 +304,7 @@ export default class TableList extends PureComponent {
       type: 'rule/add',
       payload: {
         sortKey: 'tutors',
-        objectId: this.state.modalData,
+        objectId: this.state.modalData.objectId,
         entry,
       },
     });
@@ -489,7 +489,7 @@ export default class TableList extends PureComponent {
               selectedRows={selectedRows}
               loading={loading}
               data={data}
-              columns={columns}
+              columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
