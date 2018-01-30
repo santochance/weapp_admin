@@ -92,6 +92,21 @@ const proxy = {
         });
       });
   },
+  'PATCH /api/rule/patch': (req, res) => {
+    axios.patch(HOST + `/tutors/${req.body.objId}?query`, req.body)
+      .then(rs => {
+        res.send({
+          message: rs.data.message,
+          list: rs.data.data,
+          pagination: {},
+        });
+      })
+      .catch(err => {
+        res.send({
+          message: 'request failed',
+        });
+      });
+  },
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });
   },

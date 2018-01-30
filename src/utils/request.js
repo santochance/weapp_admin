@@ -3,6 +3,8 @@ import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
 
+const HOST = 'https://vc-weapp.leanapp.cn';
+
 const codeMessage = {
   200: '服务器成功返回请求的数据',
   201: '新建或修改数据成功。',
@@ -44,10 +46,11 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
+    credentials: 'omit',
   };
   const newOptions = { ...defaultOptions, ...options };
-  if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
+  if (newOptions.method === 'POST' || newOptions.method === 'PUT' || newOptions.method === 'PATCH') {
     newOptions.headers = {
       Accept: 'application/json',
       'Content-Type': 'application/json; charset=utf-8',
@@ -55,13 +58,14 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-
-  return fetch(url, newOptions)
+  console.log('options:', options);
+  const u = (options && options.forwards) ? HOST + url : url;
+  return fetch(u, newOptions)
     .then(checkStatus)
     .then((response) => {
-      if (newOptions.method === 'DELETE' || response.status === 204) {
-        return response.text();
-      }
+      // if (newOptions.method === 'DELETE' || response.status === 204) {
+      //   return response.text();
+      // }
       return response.json();
     })
     .catch((e) => {

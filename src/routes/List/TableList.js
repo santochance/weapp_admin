@@ -304,7 +304,7 @@ export default class TableList extends PureComponent {
       type: 'rule/add',
       payload: {
         sortKey: 'tutors',
-        objectId: this.state.modalData.objectId,
+        objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
       },
     });

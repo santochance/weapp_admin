@@ -9,28 +9,32 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryRule(params) {
-  return request(`/api/rule?${stringify(params)}`);
+export async function queryRule() {
+  // return request(`/api/rule?${stringify(params)}`);
+  return request('/tutors', { forwards: true });
 }
 
 export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
+  return request(`/tutors/${params.objectId}?query`, {
+    method: 'DELETE',
   });
 }
 
 export async function addRule(params) {
   console.log('addRule params:', params);
-  return request('/api/rule', {
-    method: 'POST',
+  let url = '/tutors';
+  let method = 'POST';
+  if (params.objectId) {
+    method = 'PATCH';
+    url += `/${params.objectId}`;
+  }
+  url += '?query';
+  console.log('request /%s %s', method, url);
+  return request(url, {
+    forwards: true,
+    method,
     body: {
       ...params.entry,
-      // ...params,
-      // method: 'post',
     },
   });
 }

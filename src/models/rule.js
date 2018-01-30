@@ -5,6 +5,7 @@ export default {
 
   state: {
     data: {
+      data: [],
       list: [],
       pagination: {},
     },
@@ -22,7 +23,7 @@ export default {
     *add({ payload, callback }, { call, put }) {
       console.log('rule add payload:', payload);
       const response = yield call(addRule, payload);
-      console.log('rule add response:', response);
+      console.log('rule add response:', response)
       yield put({
         type: 'save',
         payload: response,
