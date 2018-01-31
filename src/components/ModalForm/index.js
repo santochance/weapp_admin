@@ -39,7 +39,6 @@ class ModalForm extends React.Component {
     });
   }
   normFile = (e) => {
-    // console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -113,7 +112,7 @@ class ModalForm extends React.Component {
             })(
               <PicturesWall
                 name="pics"
-                action="/upload.do"
+                action="https://vc-weapp.leanapp.cn/upload"
               />
             )}
           </FormItem>
@@ -132,7 +131,7 @@ class ModalForm extends React.Component {
 
 export default Form.create({
   onValuesChange: (props, values) => {
-    console.log('form values changed:', values);
+    // console.log('form values changed:', values);
     if (props.onModalDataChange) {
       const key = Object.keys(values)[0];
       props.onModalDataChange(key, values[key]);

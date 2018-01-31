@@ -114,7 +114,6 @@ export default class TableList extends PureComponent {
     modalVisible: false,
     modalTitle: '',
     modalData: undefined,
-    modalChangedKeys: [],
     expandForm: false,
     selectedRows: [],
     formValues: {},
@@ -294,22 +293,41 @@ export default class TableList extends PureComponent {
     // 提取新增或更新内容
     let entry;
     if (this.state.modalData) {
-      entry = this.state.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
+      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
     } else {
       entry = formData;
     }
+
+    entry = this.normFormData(entry);
     console.log('entry:', entry);
 
-    this.props.dispatch({
-      type: 'rule/add',
-      payload: {
-        sortKey: 'tutors',
-        objectId: this.state.modalData && this.state.modalData.objectId,
-        entry,
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'rule/add',
+    //   payload: {
+    //     sortKey: 'tutors',
+    //     objectId: this.state.modalData && this.state.modalData.objectId,
+    //     entry,
+    //   },
+    // });
 
     this.handleModalVisible(false);
+  }
+
+  normFormData = (data) => {
+    const { pics } = data;
+    if (pics && pics.length > 0) {
+      // 提取文件列表
+      const newPics = pics.reduce((rst, file) => {
+        if (file.url) {
+          rst.push({ url: file.url, uid: file.uid });
+        } else if (file.status === 'done' && file.response) {
+          rst.push({ url: file.response.url, uid: file.response.uid });
+        }
+        return rst;
+      }, []);
+      return { ...data, pics: newPics };
+    }
+    return data;
   }
 
   handleModalVisible = (flag, data) => {
@@ -317,17 +335,18 @@ export default class TableList extends PureComponent {
       modalVisible: !!flag,
       modalTitle: flag ? data ? '修改' : '新建' : '',
       modalData: data,
-      modalChangedKeys: [],
     });
+    this.modalChangedKeys = [];
   }
 
   handleModalDataChange = (key) => {
     if (this.state.modalData) {
-      const { modalChangedKeys } = this.state;
+      const { modalChangedKeys = [] } = this;
       if (modalChangedKeys.indexOf(key) < 0) {
-        this.setState({
-          modalChangedKeys: [...modalChangedKeys, key],
-        });
+        // this.setState({
+        //   modalChangedKeys: [...modalChangedKeys, key],
+        // });
+        this.modalChangedKeys.push(key);
       }
     }
   }
