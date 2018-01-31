@@ -3,7 +3,7 @@ import {
   Form, Input, Modal, /* Button, Upload, Icon, Popconfirm */
 } from 'antd';
 import PicturesWall from '../PicturesWall';
-// import MyEditor from './MyEditor'
+import MyEditor from '../MyEditor';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -103,7 +103,7 @@ class ModalForm extends React.Component {
             {getFieldDecorator('content', {
               // initialValue: data.content,
             })(
-              <TextArea placeholder="" />
+              <MyEditor ueditorPath="/vendor/ueditor" />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="图片">{getFieldDecorator('pics', {
@@ -116,13 +116,6 @@ class ModalForm extends React.Component {
               />
             )}
           </FormItem>
-          {/*
-          <div>
-            <div>编辑器内容</div>
-            <MyEditor ueditorPath="/vendor/ueditor" value="Default value"
-              onChange={this.updateEditorContent} />
-          </div>
-          */}
         </Form>
       </Modal>
     );
