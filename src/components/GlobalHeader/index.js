@@ -54,7 +54,7 @@ export default class GlobalHeader extends PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, fetchingNotices, isMobile, logo,
+      currentUser = {}, collapsed, fetchingNotices, isMobile, logo,
       onNoticeVisibleChange, onMenuClick, onNoticeClear,
     } = this.props;
     const menu = (
