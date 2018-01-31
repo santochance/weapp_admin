@@ -1,26 +1,26 @@
-import React from 'react'
+import React from 'react';
 import {
-  Form, Input, Button, Upload, Modal, Icon, Popconfirm
-} from 'antd'
+  Form, Input, Modal, /* Button, Upload, Icon, Popconfirm */
+} from 'antd';
 // import PictureWall from './PictureWall'
 // import MyEditor from './MyEditor'
 
-const { TextArea } = Input
-const FormItem = Form.Item
+const { TextArea } = Input;
+const FormItem = Form.Item;
 
 class ModalForm extends React.Component {
   state = {
-    editorContent: '',
-    modalVisible: false,
+    // editorContent: '',
+    // modalVisible: false,
   }
-  updateEditorContent = content => {
-    this.editorContent = content
+  updateEditorContent = (content) => {
+    this.editorContent = content;
   }
 
   handleOk = () => {
-    const { onModalOk, form } = this.props
+    const { onModalOk, form } = this.props;
     if (onModalOk) {
-      onModalOk(form.getFieldsValue())
+      onModalOk(form.getFieldsValue());
     }
   }
   handleCancel = () => {
@@ -33,23 +33,23 @@ class ModalForm extends React.Component {
       okType: 'danger',
       onOk: () => {
         if (this.props.onModalCancel) {
-          this.props.onModalCancel()
+          this.props.onModalCancel();
         }
-      }
-    })
+      },
+    });
   }
 
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
-       xs: { span: 24 },
-       sm: { span: 3 },
+        xs: { span: 24 },
+        sm: { span: 3 },
       },
       wrapperCol: {
-       xs: { span: 24 },
-       sm: { span: 21 },
+        xs: { span: 24 },
+        sm: { span: 21 },
       },
     };
     // const formItemLayoutWithOutLabel = {
@@ -59,8 +59,8 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible, onModalCancel } = this.props;
-    const data = {...this.props.data};
+    const { modalTitle, modalVisible } = this.props;
+    // const data = { ...this.props.data };
 
     return (
       <Modal
@@ -78,58 +78,59 @@ class ModalForm extends React.Component {
             {getFieldDecorator('title', {
               // initialValue: data.title,
             })(
-              <Input placeholder=""></Input>
+              <Input placeholder="" />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="副标题">
             {getFieldDecorator('subtitle', {
               // initialValue: data.subtitle,
             })(
-              <Input placeholder=""></Input>
+              <Input placeholder="" />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="描述">
             {getFieldDecorator('desc', {
               // initialValue: data.desc,
             })(
-              <TextArea placeholder=""></TextArea>
+              <TextArea placeholder="" />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="内容">
             {getFieldDecorator('content', {
               // initialValue: data.content,
             })(
-              <TextArea placeholder=""></TextArea>
+              <TextArea placeholder="" />
             )}
           </FormItem>
-         {/* <FormItem>
+          {/* <FormItem>
             <PictureWall></PictureWall>
           </FormItem>
           <div>
             <div>编辑器内容</div>
-            <MyEditor ueditorPath="/vendor/ueditor" value="Default value" onChange={this.updateEditorContent} />
-          </div>*/}
+            <MyEditor ueditorPath="/vendor/ueditor" value="Default value"
+              onChange={this.updateEditorContent} />
+          </div> */}
         </Form>
       </Modal>
-    )
+    );
   }
 }
 
 export default Form.create({
   onValuesChange: (props, values) => {
     if (props.onModalDataChange) {
-      let key = Object.keys(values)[0]
-      props.onModalDataChange(key, values[key])
+      const key = Object.keys(values)[0];
+      props.onModalDataChange(key, values[key]);
     }
   },
   mapPropsToFields: (props) => {
     if (props.data) {
       return {
-        title: Form.createFormField({value: props.data.title}),
-        subtitle: Form.createFormField({value: props.data.subtitle}),
-        desc: Form.createFormField({value: props.data.desc}),
-        content: Form.createFormField({value: props.data.content}),
-      }
+        title: Form.createFormField({ value: props.data.title }),
+        subtitle: Form.createFormField({ value: props.data.subtitle }),
+        desc: Form.createFormField({ value: props.data.desc }),
+        content: Form.createFormField({ value: props.data.content }),
+      };
     }
-  }
-})(ModalForm)
+  },
+})(ModalForm);
