@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Form, Input, Modal, /* Button, Upload, Icon, Popconfirm */
 } from 'antd';
-// import PictureWall from './PictureWall'
+import PicturesWall from '../PicturesWall';
 // import MyEditor from './MyEditor'
 
 const { TextArea } = Input;
@@ -38,8 +38,13 @@ class ModalForm extends React.Component {
       },
     });
   }
-
-
+  normFile = (e) => {
+    // console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -102,14 +107,23 @@ class ModalForm extends React.Component {
               <TextArea placeholder="" />
             )}
           </FormItem>
-          {/* <FormItem>
-            <PictureWall></PictureWall>
+          <FormItem {...formItemLayout} label="图片">{getFieldDecorator('pics', {
+              valuePropName: 'fileList',
+              getValueFromEvent: this.normFile,
+            })(
+              <PicturesWall
+                name="pics"
+                action="/upload.do"
+              />
+            )}
           </FormItem>
+          {/*
           <div>
             <div>编辑器内容</div>
             <MyEditor ueditorPath="/vendor/ueditor" value="Default value"
               onChange={this.updateEditorContent} />
-          </div> */}
+          </div>
+          */}
         </Form>
       </Modal>
     );
@@ -118,6 +132,7 @@ class ModalForm extends React.Component {
 
 export default Form.create({
   onValuesChange: (props, values) => {
+    console.log('form values changed:', values);
     if (props.onModalDataChange) {
       const key = Object.keys(values)[0];
       props.onModalDataChange(key, values[key]);
@@ -129,6 +144,7 @@ export default Form.create({
         title: Form.createFormField({ value: props.data.title }),
         subtitle: Form.createFormField({ value: props.data.subtitle }),
         desc: Form.createFormField({ value: props.data.desc }),
+        pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
       };
     }
