@@ -7,16 +7,15 @@ export default {
 
   state: {
     status: undefined,
-    user: {},
   },
 
   effects: {
     *submit({ payload }, { call, put }) {
-      console.log('call submit effects with payload:', payload);
+      console.log('call register/submit effects with payload:', payload);
 
       const response = yield call(register, payload);
 
-      console.log('submit effects response:', response);
+      console.log('register/submit effects response:', response);
       yield put({
         type: 'registerHandle',
         payload: response,
@@ -30,8 +29,7 @@ export default {
       reloadAuthorized();
       return {
         ...state,
-        // status: payload.status,
-        user: payload.user,
+        status: payload.status,
       };
     },
   },

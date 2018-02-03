@@ -90,6 +90,13 @@ export async function register(params) {
   });
 }
 
+export async function login(params) {
+  return request('/auth/signin', {
+    forwards: true,
+    method: 'POST',
+    body: params,
+  });
+}
 
 export async function queryNotices() {
   return request('/api/notices');

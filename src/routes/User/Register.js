@@ -35,15 +35,16 @@ export default class Register extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    // const account = this.props.form.getFieldValue('username');
-    // if (nextProps.register.status === 'ok') {
-    //   this.props.dispatch(routerRedux.push({
-    //     pathname: '/user/register-result',
-    //     state: {
-    //       account,
-    //     },
-    //   }));
-    // }
+    const account = this.props.form.getFieldValue('username');
+    if (nextProps.register.status === 'ok') {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/user/register-result',
+        state: {
+          account,
+        },
+      }));
+    }
+    /*
     const account = nextProps.register.user.username;
     if (account) {
       console.log('get account:', account);
@@ -54,6 +55,7 @@ export default class Register extends Component {
         },
       }));
     }
+     */
   }
 
   componentWillUnmount() {
