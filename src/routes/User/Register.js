@@ -35,8 +35,18 @@ export default class Register extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const account = this.props.form.getFieldValue('mail');
-    if (nextProps.register.status === 'ok') {
+    // const account = this.props.form.getFieldValue('username');
+    // if (nextProps.register.status === 'ok') {
+    //   this.props.dispatch(routerRedux.push({
+    //     pathname: '/user/register-result',
+    //     state: {
+    //       account,
+    //     },
+    //   }));
+    // }
+    const account = nextProps.register.user.username;
+    if (account) {
+      console.log('get account:', account);
       this.props.dispatch(routerRedux.push({
         pathname: '/user/register-result',
         state: {
@@ -78,6 +88,7 @@ export default class Register extends Component {
     e.preventDefault();
     this.props.form.validateFields({ force: true }, (err, values) => {
       if (!err) {
+        console.log('form is valid when submitting:', values);
         this.props.dispatch({
           type: 'register/submit',
           payload: {
@@ -162,6 +173,7 @@ export default class Register extends Component {
       <div className={styles.main}>
         <h3>注册</h3>
         <Form onSubmit={this.handleSubmit}>
+          {/*
           <FormItem>
             {getFieldDecorator('mail', {
               rules: [
@@ -175,6 +187,18 @@ export default class Register extends Component {
                 },
               ],
             })(<Input size="large" placeholder="邮箱" />)}
+          </FormItem>
+          */}
+          <FormItem>
+            {getFieldDecorator('username', {
+              initialValue: `Vincent ${Date.now()}`,
+              rules: [
+                {
+                  required: true,
+                  message: '请输入注册的用户名！',
+                },
+              ],
+            })(<Input size="large" placeholder="用户名" />)}
           </FormItem>
           <FormItem help={this.state.help}>
             <Popover
@@ -192,6 +216,7 @@ export default class Register extends Component {
               visible={this.state.visible}
             >
               {getFieldDecorator('password', {
+                initialValue: 'password',
                 rules: [
                   {
                     validator: this.checkPassword,
@@ -208,6 +233,7 @@ export default class Register extends Component {
           </FormItem>
           <FormItem>
             {getFieldDecorator('confirm', {
+              initialValue: 'password',
               rules: [
                 {
                   required: true,
@@ -219,6 +245,7 @@ export default class Register extends Component {
               ],
             })(<Input size="large" type="password" placeholder="确认密码" />)}
           </FormItem>
+          {/*
           <FormItem>
             <InputGroup compact>
               <Select
@@ -250,6 +277,8 @@ export default class Register extends Component {
               )}
             </InputGroup>
           </FormItem>
+          */}
+          {/*
           <FormItem>
             <Row gutter={8}>
               <Col span={16}>
@@ -274,6 +303,7 @@ export default class Register extends Component {
               </Col>
             </Row>
           </FormItem>
+          */}
           <FormItem>
             <Button
               size="large"

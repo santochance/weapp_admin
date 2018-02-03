@@ -1,4 +1,4 @@
-import { fakeRegister } from '../services/api';
+import { fakeRegister, register } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -7,11 +7,16 @@ export default {
 
   state: {
     status: undefined,
+    user: {},
   },
 
   effects: {
-    *submit(_, { call, put }) {
-      const response = yield call(fakeRegister);
+    *submit({ payload }, { call, put }) {
+      console.log('call submit effects with payload:', payload);
+
+      const response = yield call(register, payload);
+
+      console.log('submit effects response:', response);
       yield put({
         type: 'registerHandle',
         payload: response,
@@ -25,7 +30,8 @@ export default {
       reloadAuthorized();
       return {
         ...state,
-        status: payload.status,
+        // status: payload.status,
+        user: payload.user,
       };
     },
   },

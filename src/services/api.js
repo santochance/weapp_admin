@@ -81,6 +81,16 @@ export async function fakeRegister(params) {
   });
 }
 
+export async function register(params) {
+  console.log('api get parmas:', params);
+  return request('/auth/signup', {
+    forwards: true,
+    method: 'POST',
+    body: params,
+  });
+}
+
+
 export async function queryNotices() {
   return request('/api/notices');
 }
