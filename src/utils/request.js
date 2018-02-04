@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
 
-const HOST = 'https://vc-weapp.leanapp.cn';
+const HOST = 'https://vc-weapp.leanapp.cn/api/v1';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据',
