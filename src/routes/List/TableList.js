@@ -11,98 +11,6 @@ import styles from './TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-// const statusMap = ['default', 'processing', 'success', 'error'];
-// const status = ['关闭', '运行中', '已上线', '异常'];
-// const columns = [
-//   {
-//     title: '规则编号',
-//     dataIndex: 'no',
-//   },
-//   {
-//     title: '描述',
-//     dataIndex: 'description',
-//   },
-//   {
-//     title: '服务调用次数',
-//     dataIndex: 'callNo',
-//     sorter: true,
-//     align: 'right',
-//     render: val => `${val} 万`,
-//     // mark to display a total number
-//     needTotal: true,
-//   },
-//   {
-//     title: '状态',
-//     dataIndex: 'status',
-//     filters: [
-//       {
-//         text: status[0],
-//         value: 0,
-//       },
-//       {
-//         text: status[1],
-//         value: 1,
-//       },
-//       {
-//         text: status[2],
-//         value: 2,
-//       },
-//       {
-//         text: status[3],
-//         value: 3,
-//       },
-//     ],
-//     render(val) {
-//       return <Badge status={statusMap[val]} text={status[val]} />;
-//     },
-//   },
-//   {
-//     title: '更新时间',
-//     dataIndex: 'updatedAt',
-//     sorter: true,
-//     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-//   },
-//   {
-//     title: '操作',
-//     render: () => (
-//       <Fragment>
-//         <a href="">配置</a>
-//         <Divider type="vertical" />
-//         <a href="">订阅警报</a>
-//       </Fragment>
-//     ),
-//   },
-// ];
-
-/* const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="新建规则"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="描述"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-    </Modal>
-  );
-}); */
 
 @connect(({ rule, loading }) => ({
   rule,
@@ -181,11 +89,13 @@ export default class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
+      current: pagination.current,
       pageSize: pagination.pageSize,
+      total: pagination.total,
       ...formValues,
       ...filters,
     };
+
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
@@ -268,26 +178,6 @@ export default class TableList extends PureComponent {
       });
     });
   }
-
-  // handleModalVisible = (flag) => {
-  //   this.setState({
-  //     modalVisible: !!flag,
-  //   });
-  // }
-
-  // handleAdd = (fields) => {
-  //   this.props.dispatch({
-  //     type: 'rule/add',
-  //     payload: {
-  //       description: fields.desc,
-  //     },
-  //   });
-
-  //   message.success('添加成功');
-  //   this.setState({
-  //     modalVisible: false,
-  //   });
-  // }
 
   handleModalOk = (formData) => {
     // 提取新增或更新内容
@@ -484,11 +374,6 @@ export default class TableList extends PureComponent {
       </Menu>
     );
 
-    // const parentMethods = {
-    //   handleAdd: this.handleAdd,
-    //   handleModalVisible: this.handleModalVisible,
-    // };
-
     return (
       <PageHeaderLayout title="查询表格">
         <Card bordered={false}>
@@ -531,12 +416,6 @@ export default class TableList extends PureComponent {
           data={modalData}
           onModalDataChange={this.handleModalDataChange}
         />
-        {/*
-        <CreateForm
-          {...parentMethods}
-          modalVisible={modalVisible}
-        />
-        */}
       </PageHeaderLayout>
     );
   }
