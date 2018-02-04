@@ -6,7 +6,7 @@ import { queryNotices, querySortsTree } from '../services/api';
   label, value, key
  */
 function transformTree(list) {
-  list.map((item) => {
+  return list.map((item) => {
     // action
     const newItem = {
       ...item,
@@ -20,7 +20,6 @@ function transformTree(list) {
     }
     return newItem;
   });
-  return list;
 }
 
 export default {
@@ -29,6 +28,8 @@ export default {
   state: {
     collapsed: false,
     notices: [],
+    sortsTree: [],
+    sortsList: [],
   },
 
   effects: {
@@ -58,7 +59,7 @@ export default {
       const response = yield call(querySortsTree);
       yield put({
         type: 'saveSortsTree',
-        payload: transformTree(response.data),
+        payload: { tree: transformTree(response.data), list: response.list },
       });
     },
   },
@@ -85,7 +86,8 @@ export default {
     saveSortsTree(state, { payload }) {
       return {
         ...state,
-        sortsTree: payload,
+        sortsTree: payload.tree,
+        sortsList: payload.list,
       };
     },
   },

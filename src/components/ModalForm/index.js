@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'dva';
 import {
-  Form, Input, Modal, /* Button, Upload, Icon, Popconfirm */
+  Form, Input, Modal, TreeSelect, /* Button, Upload, Icon, Popconfirm */
 } from 'antd';
 import PicturesWall from '../PicturesWall';
 import MyEditor from '../MyEditor';
@@ -8,6 +9,9 @@ import MyEditor from '../MyEditor';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
+@connect(({ global }) => ({
+  sortsTree: global.sortsTree,
+}))
 class ModalForm extends React.Component {
   state = {
     // editorContent: '',
@@ -63,7 +67,7 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible } = this.props;
+    const { modalTitle, modalVisible, sortsTree } = this.props;
     // const data = { ...this.props.data };
 
     return (
@@ -78,6 +82,19 @@ class ModalForm extends React.Component {
         width={760}
       >
         <Form onSubmit={this.handleSubmit} layout="horizontal">
+          <FormItem {...formItemLayout} label="分类">
+            {getFieldDecorator('sort', {
+              initialValue: 2,
+            })(
+              <TreeSelect
+                style={{ width: 300 }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={sortsTree}
+                placeholder="请选择"
+                treeDefaultExpandAll
+              />
+            )}
+          </FormItem>
           <FormItem {...formItemLayout} label="标题">
             {getFieldDecorator('title', {
               // initialValue: data.title,
@@ -136,6 +153,7 @@ export default Form.create({
         title: Form.createFormField({ value: props.data.title }),
         subtitle: Form.createFormField({ value: props.data.subtitle }),
         desc: Form.createFormField({ value: props.data.desc }),
+        // sort: Form.createFormField({ value: props.data.sort }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
       };
