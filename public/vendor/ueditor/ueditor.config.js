@@ -29,19 +29,23 @@
             //为编辑器实例添加一个路径，这个不能被注释
             UEDITOR_HOME_URL: URL
 
+            // 服务器统一请求接口路径
+            , serverUrl: 'https://vc-weapp.leanapp.cn/ueditor'
+
             //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
             , toolbars: [[
+                'undo', 'redo', '|',
                 'bold', 'italic', 'underline', 'strikethrough', 'horizontal', '|',
                 'forecolor', 'backcolor', '|',
                 'paragraph', 'fontfamily', 'fontsize', 'lineheight', '|',
                 'insertorderedlist', 'insertunorderedlist', '|',
                 'removeformat', 'blockquote', '|',
-                'directionalityltr', 'directionalityrtl', 'indent', '|',
+                'directionalityltr', /* 'directionalityrtl', */'indent', '|',
                 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
                 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
                 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', '|',
                 'source',
-                'simpleupload',
+                /* 'simpleupload', */
                 'insertimage',
                 'fullscreen'
             ]]
@@ -102,7 +106,7 @@
 
             //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
-            ,imagePopup: false      //图片操作的浮层开关，默认打开
+            ,imagePopup: true      //图片操作的浮层开关，默认打开
 
             //,autoSyncData:true //自动同步编辑器要提交的数据
             //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹

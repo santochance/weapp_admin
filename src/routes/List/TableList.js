@@ -301,14 +301,14 @@ export default class TableList extends PureComponent {
     entry = this.normFormData(entry);
     console.log('entry:', entry);
 
-    // this.props.dispatch({
-    //   type: 'rule/add',
-    //   payload: {
-    //     sortKey: 'tutors',
-    //     objectId: this.state.modalData && this.state.modalData.objectId,
-    //     entry,
-    //   },
-    // });
+    this.props.dispatch({
+      type: 'rule/add',
+      payload: {
+        sortKey: 'tutors',
+        objectId: this.state.modalData && this.state.modalData.objectId,
+        entry,
+      },
+    });
 
     this.handleModalVisible(false);
   }
