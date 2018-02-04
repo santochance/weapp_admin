@@ -1,4 +1,27 @@
-import { queryNotices } from '../services/api';
+import { queryNotices, querySortsTree } from '../services/api';
+
+
+/*
+  转换分类树以适配Tree组件
+  label, value, key
+ */
+function transformTree(list) {
+  list.map((item) => {
+    // action
+    const newItem = {
+      ...item,
+      label: item.title,
+      value: item.id,
+      key: item.id,
+    };
+
+    if (item.children && item.children.length > 0) {
+      newItem.children = transformTree(item.children);
+    }
+    return newItem;
+  });
+  return list;
+}
 
 export default {
   namespace: 'global',
@@ -31,6 +54,13 @@ export default {
         payload: count,
       });
     },
+    *fetchSortsTree(_, { call, put }) {
+      const response = yield call(querySortsTree);
+      yield put({
+        type: 'saveSortsTree',
+        payload: transformTree(response.data),
+      });
+    },
   },
 
   reducers: {
@@ -50,6 +80,12 @@ export default {
       return {
         ...state,
         notices: state.notices.filter(item => item.type !== payload),
+      };
+    },
+    saveSortsTree(state, { payload }) {
+      return {
+        ...state,
+        sortsTree: payload,
       };
     },
   },
