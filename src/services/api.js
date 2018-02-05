@@ -13,6 +13,42 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
+const contentApiMap = {
+  tutor: '/tutors',
+};
+
+export async function queryContent({ sortName, objectId }) {
+  let endpoint = contentApiMap[sortName];
+  if (objectId) {
+    endpoint = `${endpoint}/${objectId}`;
+  }
+  return request(endpoint, { forwards: true });
+}
+
+export async function removeContent({ sortName, objectId }) {
+  const endpoint = contentApiMap[sortName];
+  return request(`${endpoint}/${objectId}?query`, {
+    forwards: true,
+    method: 'DELETE',
+  });
+}
+
+export async function addContent({ sortName, objectId, entry }) {
+  const method = objectId ? 'PATCH' : 'POST';
+  let endpoint = contentApiMap[sortName];
+  if (objectId) {
+    endpoint = `${endpoint}/${objectId}`;
+  }
+  endpoint += '?query';
+  return request(endpoint, {
+    forwards: true,
+    method,
+    body: {
+      ...entry,
+    },
+  });
+}
+
 export async function queryRule() {
   // return request(`/api/rule?${stringify(params)}`);
   return request('/tutors', { forwards: true });
