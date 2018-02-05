@@ -88,7 +88,7 @@ export const getRouterData = (app) => {
     '/sort': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Sort/Sort')),
     },
-    '/list/tutor': {
+    '/list/tutors': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
     },
     '/form/basic-form': {

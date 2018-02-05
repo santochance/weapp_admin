@@ -30,7 +30,8 @@ export default class TableList extends PureComponent {
   };
 
   componentDidMount() {
-    const [sortName] = this.props.location.pathname.split('/').slice(-1);
+    // const [sortName] = this.props.location.pathname.split('/').slice(-1);
+    const sortName = 'organizations';
     console.log('sortName:', sortName);
     this.sortName = sortName;
     const { dispatch } = this.props;
@@ -107,8 +108,8 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
-      payload: params,
+      // type: 'rule/fetch',
+      // payload: params,
     });
   }
 
@@ -185,6 +186,16 @@ export default class TableList extends PureComponent {
     });
   }
 
+  handleRemove = ({ objectId }) => {
+    this.props.dispatch({
+      type: 'content/remove',
+      payload: {
+        sortName: this.sortName,
+        objectId,
+      },
+    });
+  }
+
   handleModalOk = (formData) => {
     // 提取新增或更新内容
     let entry;
@@ -206,9 +217,9 @@ export default class TableList extends PureComponent {
     console.log('entry:', entry);
 
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'content/add',
       payload: {
-        sortKey: 'tutors',
+        sortName: this.sortName,
         objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
       },
@@ -254,16 +265,6 @@ export default class TableList extends PureComponent {
       }
     }
   }
-  handleRemove = ({ objectId }) => {
-    this.props.dispatch({
-      type: 'rule/remove',
-      payload: {
-        sortKey: 'tutors',
-        objectId,
-      },
-    });
-  }
-
 
   renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;

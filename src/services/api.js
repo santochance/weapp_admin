@@ -13,26 +13,19 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-const contentApiMap = {
-  sort: '/sorts',
-  tutor: '/tutors',
-  investor: '/investors',
-  photo: '/photos',
-};
-
 export async function queryContent({ sortName, objectId }) {
-  let endpoint = contentApiMap[sortName];
+  let endpoint = `/${sortName}`;
   if (objectId) {
-    endpoint = `${endpoint}/${objectId}`;
+    endpoint += `/${objectId}`;
   }
   console.log('# queryContent request', endpoint);
   return request(endpoint, { forwards: true });
 }
 
 export async function removeContent({ sortName, objectId }) {
-  const endpoint = contentApiMap[sortName];
+  const endpoint = sortName;
   console.log('# removeContent request', endpoint);
-  return request(`${endpoint}/${objectId}?query`, {
+  return request(`/${endpoint}/${objectId}?query`, {
     forwards: true,
     method: 'DELETE',
   });
@@ -40,9 +33,9 @@ export async function removeContent({ sortName, objectId }) {
 
 export async function addContent({ sortName, objectId, entry }) {
   const method = objectId ? 'PATCH' : 'POST';
-  let endpoint = contentApiMap[sortName];
+  let endpoint = sortName;
   if (objectId) {
-    endpoint = `${endpoint}/${objectId}`;
+    endpoint = `/${endpoint}/${objectId}`;
   }
   endpoint += '?query';
   return request(endpoint, {

@@ -40,7 +40,7 @@ const menuData = [{
   path: 'list',
   children: [{
     name: '导师',
-    path: 'tutor',
+    path: 'tutors',
   },
   {
     name: '查询表格',
