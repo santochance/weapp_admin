@@ -30,15 +30,11 @@ export default class Sort extends PureComponent {
   };
 
   componentDidMount() {
-    console.log('Table List mounted:', this.props.location);
     const { dispatch } = this.props;
-    dispatch({
-      type: 'sort/fetch',
-    });
     dispatch({
       type: 'content/fetch',
       payload: {
-        sortName: 'sort',
+        sortName: 'sorts',
       },
     });
   }
@@ -60,7 +56,7 @@ export default class Sort extends PureComponent {
     },
     {
       title: '分类',
-      dataIndex: 'sort',
+      dataIndex: 'sorts',
       // sorter: true,
       // align: 'right',
       render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
@@ -87,6 +83,86 @@ export default class Sort extends PureComponent {
       ),
     },
   ];
+
+  handleRemove = ({ objectId }) => {
+    this.props.dispatch({
+      type: 'content/remove',
+      payload: {
+        sortName: 'sorts',
+        objectId,
+      },
+    });
+  }
+
+  handleModalOk = (formData) => {
+    // 提取新增或更新内容
+    let entry;
+    if (this.state.modalData) {
+      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
+    } else {
+      entry = formData;
+    }
+
+    entry = this.normFormData(entry);
+
+    /* 填充分类数据 */
+    if (entry.sort !== undefined) {
+      const sortObj = this.props.sortsList.find(s => (s.id === entry.sort));
+      if (sortObj) {
+        entry.sname = sortObj.title;
+      }
+    }
+    console.log('entry:', entry);
+
+    this.props.dispatch({
+      type: 'content/add',
+      payload: {
+        sortName: 'sorts',
+        objectId: this.state.modalData && this.state.modalData.objectId,
+        entry,
+      },
+    });
+
+    this.handleModalVisible(false);
+  }
+
+  normFormData = (data) => {
+    const { pics } = data;
+    if (pics && pics.length > 0) {
+      // 提取文件列表
+      const newPics = pics.reduce((rst, file) => {
+        if (file.url) {
+          rst.push({ url: file.url, uid: file.uid });
+        } else if (file.status === 'done' && file.response) {
+          rst.push({ url: file.response.url, uid: file.response.uid });
+        }
+        return rst;
+      }, []);
+      return { ...data, pics: newPics };
+    }
+    return data;
+  }
+
+  handleModalVisible = (flag, data) => {
+    this.setState({
+      modalVisible: !!flag,
+      modalTitle: flag ? data ? '修改' : '新建' : '',
+      modalData: data,
+    });
+    this.modalChangedKeys = [];
+  }
+
+  handleModalDataChange = (key) => {
+    if (this.state.modalData) {
+      const { modalChangedKeys = [] } = this;
+      if (modalChangedKeys.indexOf(key) < 0) {
+        // this.setState({
+        //   modalChangedKeys: [...modalChangedKeys, key],
+        // });
+        this.modalChangedKeys.push(key);
+      }
+    }
+  }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -187,86 +263,6 @@ export default class Sort extends PureComponent {
         payload: values,
       });
     });
-  }
-
-  handleRemove = ({ objectId }) => {
-    this.props.dispatch({
-      type: 'content/remove',
-      payload: {
-        sortName: 'sort',
-        objectId,
-      },
-    });
-  }
-
-  handleModalOk = (formData) => {
-    // 提取新增或更新内容
-    let entry;
-    if (this.state.modalData) {
-      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
-    } else {
-      entry = formData;
-    }
-
-    entry = this.normFormData(entry);
-
-    /* 填充分类数据 */
-    if (entry.sort !== undefined) {
-      const sortObj = this.props.sortsList.find(s => (s.id === entry.sort));
-      if (sortObj) {
-        entry.sname = sortObj.title;
-      }
-    }
-    console.log('entry:', entry);
-
-    this.props.dispatch({
-      type: 'content/add',
-      payload: {
-        sortName: 'sort',
-        objectId: this.state.modalData && this.state.modalData.objectId,
-        entry,
-      },
-    });
-
-    this.handleModalVisible(false);
-  }
-
-  normFormData = (data) => {
-    const { pics } = data;
-    if (pics && pics.length > 0) {
-      // 提取文件列表
-      const newPics = pics.reduce((rst, file) => {
-        if (file.url) {
-          rst.push({ url: file.url, uid: file.uid });
-        } else if (file.status === 'done' && file.response) {
-          rst.push({ url: file.response.url, uid: file.response.uid });
-        }
-        return rst;
-      }, []);
-      return { ...data, pics: newPics };
-    }
-    return data;
-  }
-
-  handleModalVisible = (flag, data) => {
-    this.setState({
-      modalVisible: !!flag,
-      modalTitle: flag ? data ? '修改' : '新建' : '',
-      modalData: data,
-    });
-    this.modalChangedKeys = [];
-  }
-
-  handleModalDataChange = (key) => {
-    if (this.state.modalData) {
-      const { modalChangedKeys = [] } = this;
-      if (modalChangedKeys.indexOf(key) < 0) {
-        // this.setState({
-        //   modalChangedKeys: [...modalChangedKeys, key],
-        // });
-        this.modalChangedKeys.push(key);
-      }
-    }
   }
 
   renderSimpleForm() {
@@ -382,7 +378,7 @@ export default class Sort extends PureComponent {
   }
 
   render() {
-    const { content: { sort: data = {} }, loading } = this.props;
+    const { content: { sorts: data = {} }, loading } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
     const menu = (

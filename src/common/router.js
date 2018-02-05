@@ -85,10 +85,25 @@ export const getRouterData = (app) => {
       // name: '工作台',
       // authority: 'admin',
     },
-    '/sort': {
+    '/sorts': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Sort/Sort')),
     },
-    '/list/tutors': {
+    '/content/tutors': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
+    },
+    '/content/investors': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
+    },
+    '/content/photos': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
+    },
+    '/content/articles': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
+    },
+    '/content/organizations': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
+    },
+    '/content/enterprises': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
     },
     '/form/basic-form': {

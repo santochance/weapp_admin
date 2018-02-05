@@ -30,8 +30,7 @@ export default class TableList extends PureComponent {
   };
 
   componentDidMount() {
-    // const [sortName] = this.props.location.pathname.split('/').slice(-1);
-    const sortName = 'organizations';
+    const [sortName] = this.props.location.pathname.split('/').slice(-1);
     console.log('sortName:', sortName);
     this.sortName = sortName;
     const { dispatch } = this.props;
@@ -84,6 +83,87 @@ export default class TableList extends PureComponent {
       ),
     },
   ];
+
+
+  handleRemove = ({ objectId }) => {
+    this.props.dispatch({
+      type: 'content/remove',
+      payload: {
+        sortName: this.sortName,
+        objectId,
+      },
+    });
+  }
+
+  handleModalOk = (formData) => {
+    // 提取新增或更新内容
+    let entry;
+    if (this.state.modalData) {
+      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
+    } else {
+      entry = formData;
+    }
+
+    entry = this.normFormData(entry);
+
+    /* 填充分类数据 */
+    if (entry.sort !== undefined) {
+      const sortObj = this.props.sortsList.find(s => (s.id === entry.sort));
+      if (sortObj) {
+        entry.sname = sortObj.title;
+      }
+    }
+    console.log('entry:', entry);
+
+    this.props.dispatch({
+      type: 'content/add',
+      payload: {
+        sortName: this.sortName,
+        objectId: this.state.modalData && this.state.modalData.objectId,
+        entry,
+      },
+    });
+
+    this.handleModalVisible(false);
+  }
+
+  normFormData = (data) => {
+    const { pics } = data;
+    if (pics && pics.length > 0) {
+      // 提取文件列表
+      const newPics = pics.reduce((rst, file) => {
+        if (file.url) {
+          rst.push({ url: file.url, uid: file.uid });
+        } else if (file.status === 'done' && file.response) {
+          rst.push({ url: file.response.url, uid: file.response.uid });
+        }
+        return rst;
+      }, []);
+      return { ...data, pics: newPics };
+    }
+    return data;
+  }
+
+  handleModalVisible = (flag, data) => {
+    this.setState({
+      modalVisible: !!flag,
+      modalTitle: flag ? data ? '修改' : '新建' : '',
+      modalData: data,
+    });
+    this.modalChangedKeys = [];
+  }
+
+  handleModalDataChange = (key) => {
+    if (this.state.modalData) {
+      const { modalChangedKeys = [] } = this;
+      if (modalChangedKeys.indexOf(key) < 0) {
+        // this.setState({
+        //   modalChangedKeys: [...modalChangedKeys, key],
+        // });
+        this.modalChangedKeys.push(key);
+      }
+    }
+  }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -186,85 +266,6 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleRemove = ({ objectId }) => {
-    this.props.dispatch({
-      type: 'content/remove',
-      payload: {
-        sortName: this.sortName,
-        objectId,
-      },
-    });
-  }
-
-  handleModalOk = (formData) => {
-    // 提取新增或更新内容
-    let entry;
-    if (this.state.modalData) {
-      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
-    } else {
-      entry = formData;
-    }
-
-    entry = this.normFormData(entry);
-
-    /* 填充分类数据 */
-    if (entry.sort !== undefined) {
-      const sortObj = this.props.sortsList.find(s => (s.id === entry.sort));
-      if (sortObj) {
-        entry.sname = sortObj.title;
-      }
-    }
-    console.log('entry:', entry);
-
-    this.props.dispatch({
-      type: 'content/add',
-      payload: {
-        sortName: this.sortName,
-        objectId: this.state.modalData && this.state.modalData.objectId,
-        entry,
-      },
-    });
-
-    this.handleModalVisible(false);
-  }
-
-  normFormData = (data) => {
-    const { pics } = data;
-    if (pics && pics.length > 0) {
-      // 提取文件列表
-      const newPics = pics.reduce((rst, file) => {
-        if (file.url) {
-          rst.push({ url: file.url, uid: file.uid });
-        } else if (file.status === 'done' && file.response) {
-          rst.push({ url: file.response.url, uid: file.response.uid });
-        }
-        return rst;
-      }, []);
-      return { ...data, pics: newPics };
-    }
-    return data;
-  }
-
-  handleModalVisible = (flag, data) => {
-    this.setState({
-      modalVisible: !!flag,
-      modalTitle: flag ? data ? '修改' : '新建' : '',
-      modalData: data,
-    });
-    this.modalChangedKeys = [];
-  }
-
-  handleModalDataChange = (key) => {
-    if (this.state.modalData) {
-      const { modalChangedKeys = [] } = this;
-      if (modalChangedKeys.indexOf(key) < 0) {
-        // this.setState({
-        //   modalChangedKeys: [...modalChangedKeys, key],
-        // });
-        this.modalChangedKeys.push(key);
-      }
-    }
-  }
 
   renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;
@@ -394,7 +395,7 @@ export default class TableList extends PureComponent {
       <PageHeaderLayout title="查询表格">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>
+            <div className={styles.tableListForm} style={{ display: 'none' }}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>

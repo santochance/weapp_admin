@@ -18,7 +18,30 @@ const menuData = [{
 }, {
   name: '分类管理',
   icon: 'global',
-  path: 'sort',
+  path: 'sorts',
+}, {
+  name: '内容管理',
+  icon: 'table',
+  path: 'content',
+  children: [{
+    name: '导师',
+    path: 'tutors',
+  }, {
+    name: '投资人',
+    path: 'investors',
+  }, {
+    name: '文章',
+    path: 'articles',
+  }, {
+    name: '活动图片',
+    path: 'photos',
+  }, {
+    name: '合作机构',
+    path: 'organizations',
+  }, {
+    name: '企业',
+    path: 'enterprises',
+  }],
 }, {
   name: '表单页',
   icon: 'form',
@@ -39,10 +62,6 @@ const menuData = [{
   icon: 'table',
   path: 'list',
   children: [{
-    name: '导师',
-    path: 'tutors',
-  },
-  {
     name: '查询表格',
     path: 'table-list',
   }, {
