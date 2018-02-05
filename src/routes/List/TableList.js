@@ -12,8 +12,9 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ rule, loading }) => ({
+@connect(({ rule, global, loading }) => ({
   rule,
+  sortsList: global.sortsList,
   loading: loading.models.rule,
 }))
 @Form.create()
@@ -50,10 +51,10 @@ export default class TableList extends PureComponent {
     },
     {
       title: '分类',
-      dataIndex: 'sname',
+      dataIndex: 'sort',
       // sorter: true,
       // align: 'right',
-      render: (text, record) => <a href={record.slink}>{text}</a>,
+      render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
       // // mark to display a total number
       // needTotal: true,
     },
@@ -189,6 +190,14 @@ export default class TableList extends PureComponent {
     }
 
     entry = this.normFormData(entry);
+
+    /* 填充分类数据 */
+    if (entry.sort !== undefined) {
+      const sortObj = this.props.sortsList.find(s => (s.id === entry.sort));
+      if (sortObj) {
+        entry.sname = sortObj.title;
+      }
+    }
     console.log('entry:', entry);
 
     this.props.dispatch({

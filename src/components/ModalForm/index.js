@@ -84,7 +84,7 @@ class ModalForm extends React.Component {
         <Form onSubmit={this.handleSubmit} layout="horizontal">
           <FormItem {...formItemLayout} label="分类">
             {getFieldDecorator('sort', {
-              initialValue: 2,
+              // initialValue: 2,
             })(
               <TreeSelect
                 style={{ width: 300 }}
@@ -153,7 +153,7 @@ export default Form.create({
         title: Form.createFormField({ value: props.data.title }),
         subtitle: Form.createFormField({ value: props.data.subtitle }),
         desc: Form.createFormField({ value: props.data.desc }),
-        // sort: Form.createFormField({ value: props.data.sort }),
+        sort: Form.createFormField({ value: String(props.data.sort) }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
       };

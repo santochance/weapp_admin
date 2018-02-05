@@ -11,8 +11,8 @@ function transformTree(list) {
     const newItem = {
       ...item,
       label: item.title,
-      value: item.id,
-      key: item.id,
+      value: String(item.id),
+      key: String(item.id),
     };
 
     if (item.children && item.children.length > 0) {
