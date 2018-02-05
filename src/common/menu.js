@@ -16,6 +16,10 @@ const menuData = [{
     // hideInMenu: true,
   }],
 }, {
+  name: '分类管理',
+  icon: 'global',
+  path: 'sort',
+}, {
   name: '表单页',
   icon: 'form',
   path: 'form',

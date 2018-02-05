@@ -15,6 +15,7 @@ export async function queryActivities() {
 
 const contentApiMap = {
   tutor: '/tutors',
+  sort: '/sorts',
 };
 
 export async function queryContent({ sortName, objectId }) {
@@ -22,11 +23,13 @@ export async function queryContent({ sortName, objectId }) {
   if (objectId) {
     endpoint = `${endpoint}/${objectId}`;
   }
+  console.log('# queryContent request', endpoint);
   return request(endpoint, { forwards: true });
 }
 
 export async function removeContent({ sortName, objectId }) {
   const endpoint = contentApiMap[sortName];
+  console.log('# removeContent request', endpoint);
   return request(`${endpoint}/${objectId}?query`, {
     forwards: true,
     method: 'DELETE',
