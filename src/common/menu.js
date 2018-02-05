@@ -39,6 +39,10 @@ const menuData = [{
   icon: 'table',
   path: 'list',
   children: [{
+    name: '导师',
+    path: 'tutor',
+  },
+  {
     name: '查询表格',
     path: 'table-list',
   }, {

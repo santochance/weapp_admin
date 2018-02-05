@@ -14,8 +14,10 @@ export async function queryActivities() {
 }
 
 const contentApiMap = {
-  tutor: '/tutors',
   sort: '/sorts',
+  tutor: '/tutors',
+  investor: '/investors',
+  photo: '/photos',
 };
 
 export async function queryContent({ sortName, objectId }) {
