@@ -13,7 +13,7 @@ const menuData = [{
   }, {
     name: '工作台',
     path: 'workplace',
-    // hideInMenu: true,
+    hideInMenu: true,
   }],
 }, {
   name: '分类管理',
@@ -46,6 +46,7 @@ const menuData = [{
   name: '表单页',
   icon: 'form',
   path: 'form',
+  hideInMenu: true,
   children: [{
     name: '基础表单',
     path: 'basic-form',
@@ -61,6 +62,7 @@ const menuData = [{
   name: '列表页',
   icon: 'table',
   path: 'list',
+  hideInMenu: true,
   children: [{
     name: '查询表格',
     path: 'table-list',
@@ -88,6 +90,7 @@ const menuData = [{
   name: '详情页',
   icon: 'profile',
   path: 'profile',
+  hideInMenu: true,
   children: [{
     name: '基础详情页',
     path: 'basic',
@@ -100,6 +103,7 @@ const menuData = [{
   name: '结果页',
   icon: 'check-circle-o',
   path: 'result',
+  hideInMenu: true,
   children: [{
     name: '成功',
     path: 'success',
@@ -111,6 +115,7 @@ const menuData = [{
   name: '异常页',
   icon: 'warning',
   path: 'exception',
+  hideInMenu: true,
   children: [{
     name: '403',
     path: '403',
@@ -145,6 +150,7 @@ const menuData = [{
   icon: 'book',
   path: 'http://pro.ant.design/docs/getting-started',
   target: '_blank',
+  hideInMenu: true,
 }];
 
 function formatter(data, parentPath = '', parentAuthority) {
