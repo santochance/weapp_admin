@@ -210,29 +210,29 @@ export default class Sort extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
+  handleMenuClick = (/* e */) => {
+    // const { dispatch } = this.props;
+    // const { selectedRows } = this.state;
 
-    if (!selectedRows) return;
+    // if (!selectedRows) return;
 
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'sort/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
+    // switch (e.key) {
+    //   case 'remove':
+    //     dispatch({
+    //       type: 'sort/remove',
+    //       payload: {
+    //         no: selectedRows.map(row => row.no).join(','),
+    //       },
+    //       callback: () => {
+    //         this.setState({
+    //           selectedRows: [],
+    //         });
+    //       },
+    //     });
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   handleSelectRows = (rows) => {
