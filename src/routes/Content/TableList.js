@@ -31,7 +31,7 @@ export default class TableList extends PureComponent {
 
   componentDidMount() {
     const [sortName] = this.props.location.pathname.split('/').slice(-1);
-    console.log('sortName:', sortName);
+    console.log('TableList mounted with sortName:', sortName);
     this.sortName = sortName;
     const { dispatch } = this.props;
     dispatch({
@@ -41,10 +41,10 @@ export default class TableList extends PureComponent {
   }
 
   columns = [
-    {
-      title: '编号',
-      dataIndex: 'id',
-    },
+    // {
+    //   title: '编号',
+    //   dataIndex: 'id',
+    // },
     {
       title: '标题',
       dataIndex: 'title',
@@ -101,7 +101,7 @@ export default class TableList extends PureComponent {
     if (this.state.modalData) {
       entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
     } else {
-      entry = formData;
+      entry = {...formData};
     }
 
     entry = this.normFormData(entry);
@@ -113,7 +113,7 @@ export default class TableList extends PureComponent {
         entry.sname = sortObj.title;
       }
     }
-    console.log('entry:', entry);
+    console.log('submitting entry:', entry);
 
     this.props.dispatch({
       type: 'content/add',
@@ -128,6 +128,7 @@ export default class TableList extends PureComponent {
   }
 
   normFormData = (data) => {
+    /* 文件字段的转换处理 */
     const { pics } = data;
     if (pics && pics.length > 0) {
       // 提取文件列表
@@ -141,7 +142,8 @@ export default class TableList extends PureComponent {
       }, []);
       return { ...data, pics: newPics };
     }
-    return data;
+    /* sort字段后端要求Number, 前端要求String的转换处理 */
+    return { ...data, sort: Number(data.sort) };
   }
 
   handleModalVisible = (flag, data) => {
