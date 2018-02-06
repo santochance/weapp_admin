@@ -60,18 +60,18 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      console.log('sort/fetch payload:', payload);
+      // console.log('sort/fetch payload:', payload);
       const response = yield call(queryContent, payload);
-      console.log('sort/fetch response:', response);
+      // console.log('sort/fetch response:', response);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      console.log('sort/add payload:', payload);
+      // console.log('sort/add payload:', payload);
       const response = yield call(addContent, payload);
-      console.log('sort/add response:', response);
+      // console.log('sort/add response:', response);
       yield put({
         type: 'save',
         payload: response,

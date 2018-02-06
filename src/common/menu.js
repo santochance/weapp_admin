@@ -7,13 +7,14 @@ const menuData = [{
   children: [{
     name: '分析页',
     path: 'analysis',
+    hideInMenu: true,
   }, {
     name: '监控页',
     path: 'monitor',
+    hideInMenu: true,
   }, {
     name: '工作台',
     path: 'workplace',
-    hideInMenu: true,
   }],
 }, {
   name: '分类管理',
