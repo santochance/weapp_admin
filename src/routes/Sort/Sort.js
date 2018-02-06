@@ -32,7 +32,7 @@ export default class Sort extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'content/fetch',
+      type: 'sort/fetch',
       payload: {
         sortName: 'sorts',
       },
@@ -41,15 +41,13 @@ export default class Sort extends PureComponent {
 
   columns = [
     {
-      title: '编号',
-      dataIndex: 'id',
-    },
-    {
       title: '标题',
       dataIndex: 'title',
     },
-
-
+    {
+      title: '编号',
+      dataIndex: 'id',
+    },
     {
       title: '描述',
       dataIndex: 'desc',
@@ -86,7 +84,7 @@ export default class Sort extends PureComponent {
 
   handleRemove = ({ objectId }) => {
     this.props.dispatch({
-      type: 'content/remove',
+      type: 'sort/remove',
       payload: {
         sortName: 'sorts',
         objectId,
@@ -112,10 +110,10 @@ export default class Sort extends PureComponent {
         entry.sname = sortObj.title;
       }
     }
-    console.log('entry:', entry);
+    console.log('submitting entry:', entry);
 
     this.props.dispatch({
-      type: 'content/add',
+      type: 'sort/add',
       payload: {
         sortName: 'sorts',
         objectId: this.state.modalData && this.state.modalData.objectId,
@@ -127,6 +125,7 @@ export default class Sort extends PureComponent {
   }
 
   normFormData = (data) => {
+    /* 文件字段的转换处理 */
     const { pics } = data;
     if (pics && pics.length > 0) {
       // 提取文件列表
@@ -140,7 +139,8 @@ export default class Sort extends PureComponent {
       }, []);
       return { ...data, pics: newPics };
     }
-    return data;
+    /* sort字段后端要求Number, 前端要求String的转换处理 */
+    return { ...data, pid: Number(data.pid) };
   }
 
   handleModalVisible = (flag, data) => {
@@ -378,9 +378,10 @@ export default class Sort extends PureComponent {
   }
 
   render() {
-    const { content: { sorts: data = {} }, loading } = this.props;
+    const { sort: { data }, loading } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
+    console.log('data will input table:', data);
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>

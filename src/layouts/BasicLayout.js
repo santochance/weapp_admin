@@ -88,9 +88,16 @@ class BasicLayout extends React.PureComponent {
     this.props.dispatch({
       type: 'user/fetchCurrent',
     });
+    // 获取分类数据
     this.props.dispatch({
       type: 'global/fetchSortsTree',
-    })
+    });
+    this.props.dispatch({
+      type: 'sort/fetch',
+      payload: {
+        sortName: 'sorts',
+      },
+    });
   }
   getPageTitle() {
     const { routerData, location } = this.props;
