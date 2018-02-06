@@ -23,9 +23,9 @@ export async function queryContent({ sortName, objectId }) {
 }
 
 export async function removeContent({ sortName, objectId }) {
-  const endpoint = sortName;
+  const endpoint = `/${sortName}`;
   console.log('# removeContent request', endpoint);
-  return request(`/${endpoint}/${objectId}?query`, {
+  return request(`${endpoint}/${objectId}?query`, {
     forwards: true,
     method: 'DELETE',
   });
@@ -33,9 +33,9 @@ export async function removeContent({ sortName, objectId }) {
 
 export async function addContent({ sortName, objectId, entry }) {
   const method = objectId ? 'PATCH' : 'POST';
-  let endpoint = sortName;
+  let endpoint = `/${sortName}`;
   if (objectId) {
-    endpoint = `/${endpoint}/${objectId}`;
+    endpoint += `/${objectId}`;
   }
   endpoint += '?query';
   return request(endpoint, {
