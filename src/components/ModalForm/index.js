@@ -68,12 +68,12 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible, sortsTree, data: { id } = {} } = this.props;
+    const { modalTitle, modalVisible, sortsTree, data: { id } = {}, isLeaf = true } = this.props;
     const noSelfSortsTree = [
       {
         label: '顶级分类',
-        value: '',
-        key: 'top',
+        value: '0',
+        key: '0',
       },
       ...filterDeep(sortsTree, item => item.id !== id),
     ];
@@ -89,31 +89,34 @@ class ModalForm extends React.Component {
         width={760}
       >
         <Form onSubmit={this.handleSubmit} layout="horizontal">
-          <FormItem {...formItemLayout} label="父分类">
-            {getFieldDecorator('pid', {
-            })(
-              <TreeSelect
-                style={{ width: 300 }}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                treeData={noSelfSortsTree}
-                placeholder="请选择"
-                treeDefaultExpandAll
-              />
-            )}
-          </FormItem>
-          <FormItem {...formItemLayout} label="分类">
-            {getFieldDecorator('sort', {
-              // initialValue: 2,
-            })(
-              <TreeSelect
-                style={{ width: 300 }}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                treeData={sortsTree}
-                placeholder="请选择"
-                treeDefaultExpandAll
-              />
-            )}
-          </FormItem>
+          {isLeaf ? (
+            <FormItem {...formItemLayout} label="分类">
+              {getFieldDecorator('sort', {
+                // initialValue: 2,
+              })(
+                <TreeSelect
+                  style={{ width: 300 }}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  treeData={sortsTree}
+                  placeholder="请选择"
+                  treeDefaultExpandAll
+                />
+              )}
+            </FormItem>
+          ) : (
+            <FormItem {...formItemLayout} label="父分类">
+              {getFieldDecorator('pid', {
+              })(
+                <TreeSelect
+                  style={{ width: 300 }}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  treeData={noSelfSortsTree}
+                  placeholder="请选择"
+                  treeDefaultExpandAll
+                />
+              )}
+            </FormItem>
+          )}
           <FormItem {...formItemLayout} label="标题">
             {getFieldDecorator('title', {
               // initialValue: data.title,

@@ -430,6 +430,7 @@ export default class Sort extends PureComponent {
           onModalCancel={() => this.handleModalVisible(false)}
           data={modalData}
           onModalDataChange={this.handleModalDataChange}
+          isLeaf={false}
         />
       </PageHeaderLayout>
     );
