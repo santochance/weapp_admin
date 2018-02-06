@@ -5,12 +5,13 @@ import {
 } from 'antd';
 import PicturesWall from '../PicturesWall';
 import MyEditor from '../MyEditor';
+import filterDeep from '../../utils/filterDeep';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
-@connect(({ global }) => ({
-  sortsTree: global.sortsTree,
+@connect(({ sort }) => ({
+  sortsTree: sort.data.treeData,
 }))
 class ModalForm extends React.Component {
   state = {
@@ -67,9 +68,15 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible, sortsTree } = this.props;
-    // const data = { ...this.props.data };
-
+    const { modalTitle, modalVisible, sortsTree, data: { id } = {} } = this.props;
+    const noSelfSortsTree = [
+      {
+        label: '顶级分类',
+        value: '',
+        key: 'top',
+      },
+      ...filterDeep(sortsTree, item => item.id !== id),
+    ];
     return (
       <Modal
         title={modalTitle}
@@ -82,6 +89,18 @@ class ModalForm extends React.Component {
         width={760}
       >
         <Form onSubmit={this.handleSubmit} layout="horizontal">
+          <FormItem {...formItemLayout} label="父分类">
+            {getFieldDecorator('pid', {
+            })(
+              <TreeSelect
+                style={{ width: 300 }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={noSelfSortsTree}
+                placeholder="请选择"
+                treeDefaultExpandAll
+              />
+            )}
+          </FormItem>
           <FormItem {...formItemLayout} label="分类">
             {getFieldDecorator('sort', {
               // initialValue: 2,
@@ -154,6 +173,7 @@ export default Form.create({
         subtitle: Form.createFormField({ value: props.data.subtitle }),
         desc: Form.createFormField({ value: props.data.desc }),
         sort: Form.createFormField({ value: String(props.data.sort) }),
+        pid: Form.createFormField({ value: String(props.data.pid) }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
       };
