@@ -101,7 +101,7 @@ export default class TableList extends PureComponent {
     if (this.state.modalData) {
       entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
     } else {
-      entry = {...formData};
+      entry = { ...formData };
     }
 
     entry = this.normFormData(entry);
@@ -189,10 +189,10 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    dispatch({
-      // type: 'rule/fetch',
-      // payload: params,
-    });
+    // dispatch({
+    //   type: 'rule/fetch',
+    //   payload: params,
+    // });
   }
 
   handleFormReset = () => {

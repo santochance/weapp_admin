@@ -101,10 +101,10 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
+    // dispatch({
+    //   type: 'rule/fetch',
+    //   payload: params,
+    // });
   }
 
   handleFormReset = () => {

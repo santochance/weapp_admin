@@ -186,10 +186,10 @@ export default class Sort extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    dispatch({
-      type: 'sort/fetch',
-      payload: params,
-    });
+    // dispatch({
+    //   type: 'sort/fetch',
+    //   payload: params,
+    // });
   }
 
   handleFormReset = () => {
