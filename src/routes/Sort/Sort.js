@@ -381,7 +381,6 @@ export default class Sort extends PureComponent {
     const { sort: { data }, loading } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
-    console.log('data will input table:', data);
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>

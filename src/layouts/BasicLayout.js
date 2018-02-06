@@ -90,9 +90,6 @@ class BasicLayout extends React.PureComponent {
     });
     // 获取分类数据
     this.props.dispatch({
-      type: 'global/fetchSortsTree',
-    });
-    this.props.dispatch({
       type: 'sort/fetch',
       payload: {
         sortName: 'sorts',

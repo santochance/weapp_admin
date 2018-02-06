@@ -21,7 +21,7 @@ function generateTreeData(_list) {
       treeData.push(list[i]);
     }
   }
-  console.log('gen treeData:', treeData);
+  // console.log('gen treeData:', treeData);
   return treeData;
 }
 

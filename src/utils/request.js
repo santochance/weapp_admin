@@ -58,7 +58,7 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  console.log('options:', options);
+  // console.log('options:', options);
   const u = (options && options.forwards) ? HOST + url : url;
   return fetch(u, newOptions)
     .then(checkStatus)
