@@ -68,7 +68,8 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible, sortsTree, data: { id } = {}, isLeaf = true } = this.props;
+    const { modalTitle, modalVisible, sortsTree,
+      data: { id, locked } = {}, isLeaf = true } = this.props;
     const noSelfSortsTree = [
       {
         label: '顶级分类',
@@ -113,6 +114,7 @@ class ModalForm extends React.Component {
                   treeData={noSelfSortsTree}
                   placeholder="请选择"
                   treeDefaultExpandAll
+                  disabled={locked === 'TRUE'}
                 />
               )}
             </FormItem>

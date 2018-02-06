@@ -69,6 +69,7 @@ class StandardTable extends PureComponent {
       showSizeChanger: true,
       showQuickJumper: true,
       ...pagination,
+      defaultPageSize: 20,
     };
 
     const rowSelection = {
