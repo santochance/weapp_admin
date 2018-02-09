@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import { Table, Alert } from 'antd';
 import styles from './index.less';
 
@@ -12,6 +13,27 @@ function initTotalList(columns) {
   return totalList;
 }
 
+function populateSname(list, source) {
+  if (!list) return;
+  const cache = {};
+  // 添加sname
+  return list.map((v) => {
+    const sid = v.sort;
+    let sname;
+    if (sid in cache) {
+      sname = cache[sid];
+    } else {
+      // console.log('caculating for sort:', sid);
+      sname = (source.find(s => s.id === sid) || {}).title;
+      cache[sid] = sname;
+    }
+    return Object.assign({}, v, { sname });
+  });
+}
+
+@connect(({ sort }) => ({
+  sortsList: sort.data.list,
+}))
 class StandardTable extends PureComponent {
   constructor(props) {
     super(props);
@@ -63,7 +85,8 @@ class StandardTable extends PureComponent {
 
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data: { data, list, pagination }, loading, columns } = this.props;
+    const { data: { data, list, pagination }, loading, columns, sortsList } = this.props;
+    const dataSource = populateSname(data, sortsList);
 
     const paginationProps = {
       showSizeChanger: true,
@@ -79,6 +102,7 @@ class StandardTable extends PureComponent {
         disabled: record.disabled,
       }),
     };
+
 
     return (
       <div className={styles.standardTable}>
@@ -108,7 +132,7 @@ class StandardTable extends PureComponent {
           loading={loading}
           rowKey={record => record.id || record.objectId}
           rowSelection={rowSelection}
-          dataSource={data}
+          dataSource={dataSource}
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
