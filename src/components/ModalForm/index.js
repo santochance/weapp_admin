@@ -153,7 +153,7 @@ class ModalForm extends React.Component {
             })(
               <PicturesWall
                 name="pics"
-                action="https://vc-weapp.leanapp.cn/upload"
+                action="https://vc-weapp.leanapp.cn/api/v1/upload"
               />
             )}
           </FormItem>
