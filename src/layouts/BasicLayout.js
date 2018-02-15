@@ -235,8 +235,6 @@ class BasicLayout extends React.PureComponent {
       </Layout>
     );
 
-    if (!currentUser) return (<Redirect to="/user/login" />);
-
     return (
       <DocumentTitle title={this.getPageTitle()}>
         <ContainerQuery query={query}>

@@ -1,3 +1,4 @@
+import { routerRedux } from 'dva/router';
 import { query as queryUsers, queryCurrent } from '../services/user';
 
 export default {
@@ -23,6 +24,12 @@ export default {
         type: 'saveCurrentUser',
         payload: response,
       });
+      if (!response.user) {
+        console.log('当前无用户，重写向到登录页');
+        yield put(routerRedux.push('/user/login'));
+      } else {
+        yield put(routerRedux.push('/'));
+      }
     },
   },
 
@@ -36,7 +43,7 @@ export default {
     saveCurrentUser(state, action) {
       return {
         ...state,
-        currentUser: action.payload.user,
+        currentUser: action.payload.user || {},
       };
     },
     changeNotifyCount(state, action) {

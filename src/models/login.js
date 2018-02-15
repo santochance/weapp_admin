@@ -13,11 +13,13 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
+      console.log('login/login effects response:', response);
+      // 登录失败
+      if (!response) return;
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      console.log('login/login effects response:', response);
       // Login successfully
       if (response.status === 'ok') {
         console.log('login successfully!');
