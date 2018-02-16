@@ -6,12 +6,14 @@ import {
 import PicturesWall from '../PicturesWall';
 import MyEditor from '../MyEditor';
 import filterDeep from '../../utils/filterDeep';
+import { findTreeNode, getNonRootTopAncestor } from '../../utils/getNonRootTopAncestor';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
 @connect(({ sort }) => ({
   sortsTree: sort.data.treeData,
+  sortsList: sort.data.list,
 }))
 class ModalForm extends React.Component {
   state = {
@@ -68,16 +70,23 @@ class ModalForm extends React.Component {
     //   },
     // };
 
-    const { modalTitle, modalVisible, sortsTree,
-      data: { id, locked } = {}, isLeaf = true } = this.props;
-    const noSelfSortsTree = [
+    const { modalTitle, modalVisible, sortsTree, sortsList,
+      data: { id, locked } = {}, isLeaf = true, sortId } = this.props;
+
+    const treeData = isLeaf ? ([
+      getNonRootTopAncestor(
+        sortsList,
+        findTreeNode(sortsTree, item => item.id === sortId)
+      ),
+    ]) : ([
       {
         label: '顶级分类',
         value: '0',
         key: '0',
       },
       ...filterDeep(sortsTree, item => item.id !== id),
-    ];
+    ]);
+
     return (
       <Modal
         title={modalTitle}
@@ -98,7 +107,7 @@ class ModalForm extends React.Component {
                 <TreeSelect
                   style={{ width: 300 }}
                   dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  treeData={sortsTree}
+                  treeData={treeData}
                   placeholder="请选择"
                   treeDefaultExpandAll
                 />
@@ -111,7 +120,7 @@ class ModalForm extends React.Component {
                 <TreeSelect
                   style={{ width: 300 }}
                   dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  treeData={noSelfSortsTree}
+                  treeData={treeData}
                   placeholder="请选择"
                   treeDefaultExpandAll
                   disabled={locked === 'TRUE'}
@@ -181,6 +190,11 @@ export default Form.create({
         pid: Form.createFormField({ value: String(props.data.pid) }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
+      };
+    } else {
+      return {
+        pid: Form.createFormField({ value: '0' }),
+        sort: Form.createFormField({ value: String(props.sortId) }),
       };
     }
   },
