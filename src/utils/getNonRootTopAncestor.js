@@ -29,6 +29,7 @@ function findTreeNode(_list, iteratee) {
 function getNonRootTopAncestor(flatList, _node) {
   // 往上遍历直到找到父节点是根节点的祖先节点
   function recur(node) {
+    if (!node) return;
     const { pid } = node;
     if (!pid) return node;
     return recur(flatList[pid]);

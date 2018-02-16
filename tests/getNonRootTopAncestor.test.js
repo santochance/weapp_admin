@@ -138,7 +138,7 @@ const flatList = [
   { id: 5, pid: 2 },
   { id: 6, pid: 3 },
 ];
-const filterId = 7;
+const filterId = 1;
 const rst = findTreeNode(treeData, item => item.id === filterId);
 console.log(JSON.stringify(rst, null, 2));
 
