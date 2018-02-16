@@ -11,6 +11,15 @@ import styles from './TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+const sortNameToSortIdMap = {
+  articles: 1,
+  tutors: 2,
+  investors: 3,
+  photos: 4,
+  enterprises: 5,
+  organizators: 6,
+  news: 7,
+};
 
 @connect(({ rule, content, global, loading }) => ({
   rule,
@@ -33,6 +42,7 @@ export default class TableList extends PureComponent {
     const [sortName] = this.props.location.pathname.split('/').slice(-1);
     console.log('TableList mounted with sortName:', sortName);
     this.sortName = sortName;
+    this.sortId = sortNameToSortIdMap[sortName];
     const { dispatch } = this.props;
     dispatch({
       type: 'content/fetch',
@@ -434,6 +444,7 @@ export default class TableList extends PureComponent {
           onModalCancel={() => this.handleModalVisible(false)}
           data={modalData}
           onModalDataChange={this.handleModalDataChange}
+          sortId={this.sortId}
         />
       </PageHeaderLayout>
     );
