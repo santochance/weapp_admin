@@ -8,7 +8,7 @@ function generateTreeData(_list) {
   for (let i = 0; i < list.length; i += 1) {
     const arr = [];
     for (let j = 0; j < list.length; j += 1) {
-      if (list[i].id === list[j].pid) {
+      if (list[i].objectId === list[j].parent) {
         list[i].children = arr;
         arr.push(list[j]);
       }
@@ -17,7 +17,7 @@ function generateTreeData(_list) {
 
   const treeData = [];
   for (let i = 0; i < list.length; i += 1) {
-    if (!list[i].pid) {
+    if (!list[i].parent) {
       treeData.push(list[i]);
     }
   }
@@ -35,8 +35,8 @@ function transformTree(list) {
     const newItem = {
       ...item,
       label: item.title,
-      value: String(item.id),
-      key: String(item.id),
+      value: String(item.objectId),
+      key: String(item.objectId),
     };
 
     if (item.children && item.children.length > 0) {
@@ -92,6 +92,7 @@ export default {
     save(state, { payload }) {
       console.log('sort save reducers payload:', payload);
       const treeData = transformTree(generateTreeData(payload.data));
+      // console.log('treeData to save:', treeData);
       return {
         ...state,
         data: {

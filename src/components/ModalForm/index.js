@@ -71,20 +71,21 @@ class ModalForm extends React.Component {
     // };
 
     const { modalTitle, modalVisible, sortsTree, sortsList,
-      data: { id, locked } = {}, isLeaf = true, sortId } = this.props;
-
+      data: { id, locked, objectId } = {}, isLeaf = true, sortId } = this.props;
     const treeData = isLeaf ? ([
       getNonRootTopAncestor(
         sortsList,
-        findTreeNode(sortsTree, item => item.id === sortId)
+        findTreeNode(sortsTree, item => item.objectId === sortId)
       ),
     ]) : ([
       {
         label: '顶级分类',
-        value: '0',
-        key: '0',
+        value: '',
+        key: '',
       },
-      ...filterDeep(sortsTree, item => item.id !== id),
+      /* 注意表数据字段缺省是值为undefind, 创建模式数据字段值也为undefind */
+      /* 这样可能会导致不期望的过滤结果 */
+      ...filterDeep(sortsTree, item => item.objectId !== objectId),
     ]);
 
     return (
@@ -99,7 +100,7 @@ class ModalForm extends React.Component {
         width={760}
       >
         <Form onSubmit={this.handleSubmit} layout="horizontal">
-          {isLeaf ? (
+          {false ? (
             <FormItem {...formItemLayout} label="分类">
               {getFieldDecorator('sort', {
                 // initialValue: 2,
@@ -115,7 +116,7 @@ class ModalForm extends React.Component {
             </FormItem>
           ) : (
             <FormItem {...formItemLayout} label="父分类">
-              {getFieldDecorator('pid', {
+              {getFieldDecorator('parent', {
               })(
                 <TreeSelect
                   style={{ width: 300 }}
@@ -149,14 +150,8 @@ class ModalForm extends React.Component {
               <TextArea placeholder="" />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label="内容">
-            {getFieldDecorator('content', {
-              // initialValue: data.content,
-            })(
-              <MyEditor ueditorPath="/vendor/ueditor" />
-            )}
-          </FormItem>
-          <FormItem {...formItemLayout} label="图片">{getFieldDecorator('pics', {
+          <FormItem {...formItemLayout} label="图片">
+            {getFieldDecorator('pics', {
               valuePropName: 'fileList',
               getValueFromEvent: this.normFile,
             })(
@@ -164,6 +159,13 @@ class ModalForm extends React.Component {
                 name="pics"
                 action="https://vc-weapp.leanapp.cn/api/v1/upload"
               />
+            )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="内容">
+            {getFieldDecorator('content', {
+              // initialValue: data.content,
+            })(
+              <MyEditor ueditorPath="/vendor/ueditor" />
             )}
           </FormItem>
         </Form>
@@ -190,11 +192,13 @@ export default Form.create({
         pid: Form.createFormField({ value: String(props.data.pid) }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
+        parent: Form.createFormField({ value: props.data.parent || props.sortId || '' }),
       };
     } else {
       return {
         pid: Form.createFormField({ value: '0' }),
         sort: Form.createFormField({ value: String(props.sortId) }),
+        parent: Form.createFormField({ value: props.sortId || '' }),
       };
     }
   },

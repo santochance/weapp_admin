@@ -44,23 +44,23 @@ export default class Sort extends PureComponent {
       title: '标题',
       dataIndex: 'title',
     },
-    {
-      title: '编号',
-      dataIndex: 'id',
-    },
+    // {
+    //   title: '编号',
+    //   dataIndex: 'id',
+    // },
     {
       title: '描述',
       dataIndex: 'desc',
     },
-    {
-      title: '分类',
-      dataIndex: 'sorts',
-      // sorter: true,
-      // align: 'right',
-      render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
-      // // mark to display a total number
-      // needTotal: true,
-    },
+    // {
+    //   title: '分类',
+    //   dataIndex: 'sorts',
+    //   // sorter: true,
+    //   // align: 'right',
+    //   render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
+    //   // // mark to display a total number
+    //   // needTotal: true,
+    // },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',

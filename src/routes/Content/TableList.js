@@ -12,13 +12,13 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const sortNameToSortIdMap = {
-  articles: 1,
-  tutors: 2,
-  investors: 3,
-  photos: 4,
-  enterprises: 5,
-  organizators: 6,
-  news: 7,
+  articles: '5a797cf4e696c90027d78a4b',
+  tutors: '5a797cf4e696c90027d78a4c',
+  investors: '5a797cf4e696c90027d78a4d',
+  photos: '5a797cf4e696c90027d78a4e',
+  enterprises: '5a797cf4e696c90027d78a4f',
+  organizators: '5a797cf4e696c90027d78a50',
+  news: '5a797cf4e696c90027d78a51',
 };
 
 @connect(({ rule, content, global, loading }) => ({
@@ -59,11 +59,6 @@ export default class TableList extends PureComponent {
       title: '标题',
       dataIndex: 'title',
     },
-
-    {
-      title: '描述',
-      dataIndex: 'desc',
-    },
     {
       title: '分类',
       dataIndex: 'sort',
@@ -72,6 +67,10 @@ export default class TableList extends PureComponent {
       render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
       // // mark to display a total number
       // needTotal: true,
+    },
+    {
+      title: '描述',
+      dataIndex: 'desc',
     },
     {
       title: '更新时间',
