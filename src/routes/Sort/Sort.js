@@ -127,6 +127,11 @@ export default class Sort extends PureComponent {
   normFormData = (data) => {
     /* 文件字段的转换处理 */
     const { pics } = data;
+    /* pid字段后端要求Number, 前端要求String的转换处理 */
+    const updates = {};
+    if ('pid' in data) {
+      updates.pid = Number(data.pid);
+    }
     if (pics && pics.length > 0) {
       // 提取文件列表
       const newPics = pics.reduce((rst, file) => {
@@ -137,10 +142,9 @@ export default class Sort extends PureComponent {
         }
         return rst;
       }, []);
-      return { ...data, pics: newPics };
+      updates.pics = newPics;
     }
-    /* sort字段后端要求Number, 前端要求String的转换处理 */
-    return { ...data, pid: Number(data.pid) };
+    return { ...data, ...updates };
   }
 
   handleModalVisible = (flag, data) => {
@@ -165,7 +169,7 @@ export default class Sort extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {

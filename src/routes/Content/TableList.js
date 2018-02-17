@@ -140,6 +140,11 @@ export default class TableList extends PureComponent {
   normFormData = (data) => {
     /* 文件字段的转换处理 */
     const { pics } = data;
+    /* sort字段后端要求Number, 前端要求String的转换处理 */
+    const updates = {};
+    if ('sort' in data) {
+      updates.sort = Number(data.sort);
+    }
     if (pics && pics.length > 0) {
       // 提取文件列表
       const newPics = pics.reduce((rst, file) => {
@@ -150,10 +155,9 @@ export default class TableList extends PureComponent {
         }
         return rst;
       }, []);
-      return { ...data, pics: newPics };
+      updates.pics = newPics;
     }
-    /* sort字段后端要求Number, 前端要求String的转换处理 */
-    return { ...data, sort: Number(data.sort) };
+    return { ...data, ...updates };
   }
 
   handleModalVisible = (flag, data) => {
@@ -178,7 +182,7 @@ export default class TableList extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
