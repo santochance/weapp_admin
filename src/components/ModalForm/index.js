@@ -76,7 +76,7 @@ class ModalForm extends React.Component {
       getNonRootTopAncestor(
         sortsList,
         findTreeNode(sortsTree, item => item.objectId === sortId)
-      ),
+      ) || {},
     ]) : ([
       {
         label: '顶级分类',

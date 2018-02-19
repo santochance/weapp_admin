@@ -17,7 +17,7 @@ const sortNameToSortIdMap = {
   investors: '5a797cf4e696c90027d78a4d',
   photos: '5a797cf4e696c90027d78a4e',
   enterprises: '5a797cf4e696c90027d78a4f',
-  organizators: '5a797cf4e696c90027d78a50',
+  organizations: '5a797cf4e696c90027d78a50',
   news: '5a797cf4e696c90027d78a51',
 };
 
