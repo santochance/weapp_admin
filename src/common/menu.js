@@ -42,6 +42,9 @@ const menuData = [{
   }, {
     name: '企业',
     path: 'enterprises',
+  }, {
+    name: '新闻',
+    path: 'news',
   }],
 }, {
   name: '表单页',
