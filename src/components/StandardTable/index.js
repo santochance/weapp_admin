@@ -130,6 +130,7 @@ class StandardTable extends PureComponent {
           />
         </div>
         <Table
+          className={styles.tableView}
           loading={loading}
           rowKey={record => record.id || record.objectId}
           rowSelection={rowSelection}
