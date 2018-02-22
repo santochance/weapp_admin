@@ -25,6 +25,9 @@ const menuData = [{
   icon: 'table',
   path: 'content',
   children: [{
+    name: '横幅',
+    path: 'banners',
+  }, {
     name: '导师',
     path: 'tutors',
   }, {
