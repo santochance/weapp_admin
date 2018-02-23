@@ -7,7 +7,7 @@
     "/* precommit */": "npm run lint-staged",
     "start": "cross-env DISABLE_ESLINT=true roadhog dev",
     "start:no-proxy": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog dev",
-    "build": "cross-env DISABLE_ESLINT=true roadhog build",
+    "build": "cross-env DISABLE_ESLINT=true roadhog build && npm run move:server",
     "site": "roadhog-api-doc static && gh-pages -d dist",
     "analyze": "cross-env ANALYZE=true roadhog build",
     "lint:style": "stylelint \"src/**/*.less\" --syntax less",
@@ -17,7 +17,8 @@
     "lint-staged:js": "eslint --ext .js",
     "test": "roadhog test",
     "test:component": "roadhog test ./src/components",
-    "test:all": "node ./tests/run-tests.js"
+    "test:all": "node ./tests/run-tests.js",
+    "move:server": "rm -rf ../admin-server/public && cp -r dist ../admin-server/public"
   },
   "dependencies": {
     "@antv/data-set": "^0.8.0",

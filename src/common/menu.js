@@ -4,6 +4,7 @@ const menuData = [{
   name: 'dashboard',
   icon: 'dashboard',
   path: 'dashboard',
+  hideInMenu: true,
   children: [{
     name: '分析页',
     path: 'analysis',
@@ -16,6 +17,10 @@ const menuData = [{
     name: '工作台',
     path: 'workplace',
   }],
+}, {
+  name: '报名管理',
+  icon: 'form',
+  path: 'registrations',
 }, {
   name: '分类管理',
   icon: 'global',
@@ -49,10 +54,6 @@ const menuData = [{
     name: '新闻',
     path: 'news',
   }],
-}, {
-  name: '报名管理',
-  icon: 'form',
-  path: 'registrations',
 }, {
   name: '表单页',
   icon: 'form',

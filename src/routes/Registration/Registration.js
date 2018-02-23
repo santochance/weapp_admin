@@ -429,7 +429,7 @@ export default class Registration extends PureComponent {
             <div className={styles.tableListForm} style={{ display: 'none' }}>
               {this.renderForm()}
             </div>
-            <div className={styles.tableListOperator}>
+            <div className={styles.tableListOperator} style={{ display: 'none' }}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建
               </Button>
