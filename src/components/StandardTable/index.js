@@ -18,7 +18,7 @@ function populateSname(list, source) {
   const cache = {};
   // 添加sname
   return list.map((v) => {
-    /* sid 是分类 id, 改为使用 objectId 后是从 entry.parent 获取*/
+    /* sid 是分类 id, 改为使用 objectId 后是从 entry.parent 获取 */
     const sid = v.parent;
     let sname;
     if (sid in cache) {
@@ -86,7 +86,7 @@ class StandardTable extends PureComponent {
 
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data: { data, list, pagination }, loading, columns, sortsList } = this.props;
+    const { data: { data, /* list,  */pagination }, loading, columns, sortsList } = this.props;
     const dataSource = populateSname(data, sortsList);
 
     const paginationProps = {
@@ -122,7 +122,7 @@ class StandardTable extends PureComponent {
                     )
                   )
                 }
-                <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
+                <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24, display: 'none' }}>清空</a>
               </div>
             )}
             type="info"

@@ -59,6 +59,7 @@ export default class TableList extends PureComponent {
     {
       title: '标题',
       dataIndex: 'title',
+      className: styles.colTitle,
     },
     {
       title: '分类',
@@ -72,6 +73,7 @@ export default class TableList extends PureComponent {
     {
       title: '描述',
       dataIndex: 'desc',
+      className: styles.colDesc,
     },
     {
       title: '更新时间',

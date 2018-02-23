@@ -5,6 +5,16 @@
     .ant-table-pagination {
       margin-top: 24px;
     }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 16px .4em;
+    }
+    .ant-table-thead > tr > th.ant-table-selection-column,
+    .ant-table-tbody > tr > td.ant-table-selection-column {
+      width: auto;
+      max-width: 62px;
+      min-width: 32px;
+    }
   }
 
   .tableAlert {
@@ -12,10 +22,6 @@
   }
 
   .tableView {
-    th { white-space: nowrap; }
-  }
-
-  .colUpdatedAt {
-    min-width: 105px;
+    // th { min-width: 60px; }
   }
 }
