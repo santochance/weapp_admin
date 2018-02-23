@@ -17,11 +17,12 @@ function generateTreeData(_list) {
 
   const treeData = [];
   for (let i = 0; i < list.length; i += 1) {
-    if (!list[i].parent) {
+    /* 这里条件是分类作为顶级分类时parent要满足的条件 */
+    if (list[i].parent === 'root' || !list[i].parent) {
       treeData.push(list[i]);
     }
   }
-  // console.log('gen treeData:', treeData);
+  console.log('gen sort treeData:', treeData);
   return treeData;
 }
 

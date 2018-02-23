@@ -26,9 +26,13 @@ class ModalForm extends React.Component {
 
   handleOk = () => {
     const { onModalOk, form } = this.props;
-    if (onModalOk) {
-      onModalOk(form.getFieldsValue());
-    }
+    form.validateFieldsAndScroll((err) => {
+      if (!err) {
+        if (onModalOk) {
+          onModalOk(form.getFieldsValue());
+        }
+      }
+    });
   }
   handleCancel = () => {
     Modal.confirm({
@@ -80,8 +84,8 @@ class ModalForm extends React.Component {
     ]) : ([
       {
         label: '顶级分类',
-        value: '',
-        key: '',
+        value: 'root',
+        key: 'root',
       },
       /* 注意表数据字段缺省是值为undefind, 创建模式数据字段值也为undefind */
       /* 这样可能会导致不期望的过滤结果 */
@@ -115,8 +119,12 @@ class ModalForm extends React.Component {
               )}
             </FormItem>
           ) : (
-            <FormItem {...formItemLayout} label="父分类">
+            <FormItem {...formItemLayout} label="分类">
               {getFieldDecorator('parent', {
+                rules: [{
+                    required: true,
+                    message: '必须选择一个分类！',
+                }],
               })(
                 <TreeSelect
                   style={{ width: 300 }}
@@ -192,13 +200,13 @@ export default Form.create({
         pid: Form.createFormField({ value: String(props.data.pid) }),
         pics: Form.createFormField({ value: props.data.pics }),
         content: Form.createFormField({ value: props.data.content }),
-        parent: Form.createFormField({ value: props.data.parent || props.sortId || '' }),
+        parent: Form.createFormField({ value: props.data.parent || props.sortId || 'root' /* 顶级分类value值 */ }),
       };
     } else {
       return {
         pid: Form.createFormField({ value: '0' }),
         sort: Form.createFormField({ value: String(props.sortId) }),
-        parent: Form.createFormField({ value: props.sortId || '' }),
+        parent: Form.createFormField({ value: props.sortId || 'root' /* 顶级分类value值 */ }),
       };
     }
   },

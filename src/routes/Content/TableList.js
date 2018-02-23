@@ -19,6 +19,7 @@ const sortNameToSortIdMap = {
   enterprises: '5a797cf4e696c90027d78a4f',
   organizations: '5a797cf4e696c90027d78a50',
   news: '5a797cf4e696c90027d78a51',
+  banners: '5a87acd317d00900353c76c7',
 };
 
 @connect(({ rule, content, global, loading }) => ({
