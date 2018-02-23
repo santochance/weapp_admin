@@ -50,6 +50,10 @@ const menuData = [{
     path: 'news',
   }],
 }, {
+  name: '报名管理',
+  icon: 'form',
+  path: 'registrations',
+}, {
   name: '表单页',
   icon: 'form',
   path: 'form',

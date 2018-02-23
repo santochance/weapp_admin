@@ -115,6 +115,9 @@ export const getRouterData = (app) => {
         component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
       },
     }), {}),
+    '/registrations': {
+      component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Registration/Registration')),
+    },
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
