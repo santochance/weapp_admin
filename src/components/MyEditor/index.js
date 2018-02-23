@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './index.css';
 
 class MyEditor extends React.Component {
   constructor (props) {
@@ -45,6 +44,11 @@ class MyEditor extends React.Component {
       })
     })
     window.editor = this
+
+    // 修复当编辑器放在antd的Form.Item组件内时line-height被影响的问题
+    const style = document.createElement('style');
+    style.innerHTML = '.edui-default {line-height: 1.5;}';
+    document.head.appendChild(style);
   }
 
   componentWillUnmount() {
@@ -83,8 +87,6 @@ class MyEditor extends React.Component {
       }
     })
     this.ueditor.ready((ueditor) => {
-      // 修复当编辑器放在antd的Form.Item组件内时line-height被影响的问题
-      window.document.querySelector('.edui-default').style.lineHeight = 1.5;
       // ueditor.setContent()的参数不能为undefined
       this.ueditor.setContent(this.props.value || '');
     })
