@@ -33,14 +33,17 @@ const menuData = [{
     name: '横幅',
     path: 'banners',
   }, {
+    name: '文章',
+    path: 'articles',
+  }, {
     name: '导师',
     path: 'tutors',
   }, {
     name: '投资人',
     path: 'investors',
   }, {
-    name: '文章',
-    path: 'articles',
+    name: '举办与组织单位',
+    path: 'sponsers',
   }, {
     name: '活动图片',
     path: 'photos',

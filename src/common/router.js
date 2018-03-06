@@ -109,7 +109,7 @@ export const getRouterData = (app) => {
     '/content/enterprises': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
     },
-    ...['news'].reduce((obj, sort) => ({
+    ...['news', 'sponsers'].reduce((obj, sort) => ({
       ...obj,
       [`/content/${sort}`]: {
         component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
