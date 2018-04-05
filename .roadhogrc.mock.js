@@ -17,6 +17,23 @@ const noProxy = process.env.NO_PROXY === 'true';
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
+  'GET /regions': {
+    data: [{
+      "name": "福田之星",
+      "pic": "",
+      "desc": "2017年福田之星",
+      "hostedAt": "2018-04-05T11:04:02.214Z",
+      "city": "深圳市",
+      "odder": 10,
+    }, {
+      "name": "龙华之星",
+      "pic": "",
+      "desc": "2017年龙华之星",
+      "hostedAt": "2018-03-05T11:04:02.214Z",
+      "city": "深圳市",
+      "odder": 10,
+    }]
+  },
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
     $desc: "获取当前用户接口",

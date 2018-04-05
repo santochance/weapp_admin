@@ -47,6 +47,41 @@ export async function addContent({ sortName, objectId, entry }) {
   });
 }
 
+export async function queryRegion({ sortName, objectId }) {
+  let endpoint = `/${sortName}`;
+  if (objectId) {
+    endpoint += `/${objectId}`;
+  }
+  console.log('# queryRegion request', endpoint);
+  return request(endpoint, { forwards: false });
+}
+
+export async function removeRegion({ sortName, objectId }) {
+  const endpoint = `/${sortName}`;
+  console.log('# removeRegion request', endpoint);
+  return request(`${endpoint}/${objectId}?query`, {
+    forwards: false,
+    method: 'DELETE',
+  });
+}
+
+export async function addRegion({ sortName, objectId, entry }) {
+  const method = objectId ? 'PATCH' : 'POST';
+  let endpoint = `/${sortName}`;
+  if (objectId) {
+    endpoint += `/${objectId}`;
+  }
+  endpoint += '?query';
+  return request(endpoint, {
+    forwards: false,
+    method,
+    body: {
+      ...entry,
+    },
+  });
+}
+
+
 export async function queryRule() {
   // return request(`/api/rule?${stringify(params)}`);
   return request('/tutors', { forwards: true });

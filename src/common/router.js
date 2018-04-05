@@ -71,7 +71,7 @@ function getFlatMenuData(menus) {
 export const getRouterData = (app) => {
   const routerConfig = {
     '/': {
-      component: dynamicWrapper(app, ['user', 'login', 'sort'], () => import('../layouts/BasicLayout')),
+      component: dynamicWrapper(app, ['user', 'login', 'sort', 'region'], () => import('../layouts/BasicLayout')),
     },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
@@ -84,6 +84,9 @@ export const getRouterData = (app) => {
       // hideInBreadcrumb: true,
       // name: '工作台',
       // authority: 'admin',
+    },
+    '/regions': {
+      component: dynamicWrapper(app, ['region'], () => import('../routes/Region/Region')),
     },
     '/sorts': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Sort/Sort')),

@@ -95,6 +95,11 @@ class BasicLayout extends React.PureComponent {
         sortName: 'sorts',
       },
     });
+
+    /* 测试 */
+    this.props.dispatch({
+      type: 'region/fetch'
+    })
   }
   getPageTitle() {
     const { routerData, location } = this.props;
@@ -117,7 +122,8 @@ class BasicLayout extends React.PureComponent {
       window.history.replaceState(null, 'redirect', urlParams.href);
     } else {
       // return '/dashboard/analysis';
-      return '/registrations';
+      // return '/registrations';
+      return '/regions';
     }
     return redirect;
   }

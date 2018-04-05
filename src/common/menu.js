@@ -18,6 +18,10 @@ const menuData = [{
     path: 'workplace',
   }],
 }, {
+  name: '赛区管理',
+  icon: 'form',
+  path: 'regions',
+}, {
   name: '报名管理',
   icon: 'form',
   path: 'registrations',
