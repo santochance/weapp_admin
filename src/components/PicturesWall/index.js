@@ -20,7 +20,7 @@ class PicturesWall extends React.Component {
 
   render() {
     const { previewVisible, previewImage } = this.state;
-    const { action, name, fileList, listType, onChange } = this.props;
+    const { action, name, fileList, listType, onChange, limit } = this.props;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -38,9 +38,7 @@ class PicturesWall extends React.Component {
           onPreview={this.handlePreview}
           multiple
         >
-          {/* fileList && fileList.length >= 3 ? null : uploadButton
-          */}
-          {uploadButton}
+          {limit && fileList && fileList.length >= limit ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
