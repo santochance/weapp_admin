@@ -50,6 +50,24 @@ export default class TableList extends PureComponent {
       type: 'content/fetch',
       payload: { sortName },
     });
+
+    const actionCol = {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <Fragment>
+          <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
+          <Divider type="vertical" />
+          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
+            <a>删除</a>
+          </Popconfirm>
+        </Fragment>
+      ),
+    };
+
+    const { columns } = this.props;
+    const { columns: defaultColumns } = this;
+    this.columns = columns ? [...columns, actionCol] : defaultColumns;
   }
 
   columns = [
