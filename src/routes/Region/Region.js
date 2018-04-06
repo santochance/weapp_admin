@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Button, Icon, List, Popconfirm } from 'antd';
+import { Card, Button, Icon, List, Popconfirm, message } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import Ellipsis from '../../components/Ellipsis';
@@ -84,8 +84,18 @@ export default class Region extends PureComponent {
     });
   }
 
+  handleSelect = (item) => {
+    this.props.dispatch({
+      type: 'region/saveCurrent',
+      payload: item,
+      callback: (current) => {
+        message.success(`成功切换赛区为：${current.title}`);
+      },
+    });
+  }
+
   render() {
-    const { region: { list }, loading } = this.props;
+    const { region: { list, currentRegion }, loading } = this.props;
     const { modalVisible, modalTitle, modalData } = this.state;
 
     const content = (
@@ -120,17 +130,17 @@ export default class Region extends PureComponent {
               <List.Item key={item.objectId}>
                 <Card
                   hoverable
-                  className={styles.card}
-                  cover={<img alt="" src={item.pic} />}
+                  className={item.objectId === currentRegion.objectId ? styles.activeCard : styles.card}
+                  cover={<img alt="" src={item.pic} onClick={() => this.handleSelect(item)} />}
                   actions={[
                     <a onClick={() => this.handleModalVisible(true, item)}>编辑</a>,
                     <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(item)}>
                       <a>删除</a>
-                    </Popconfirm>
+                    </Popconfirm>,
                   ]}
                 >
                   <Card.Meta
-                    title={<a href="#">{item.title}</a>}
+                    title={<a onClick={() => this.handleSelect(item)}>{item.title}</a>}
                     description={(
                       <div>
                         <div><span>{item.city}</span></div>
