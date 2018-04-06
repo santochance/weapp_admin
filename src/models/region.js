@@ -10,7 +10,7 @@ const seed = [{
   city: '深圳市',
   order: 10,
 }, {
-  objectId: '1',
+  objectId: '2',
   title: '龙华之星',
   pic: 'https://picsum.photos/300/200',
   desc: '2017年龙华之星',
@@ -35,6 +35,8 @@ export default {
   namespace: 'region',
 
   state: {
+    list: [],
+    currentRegion: {},
   },
 
   effects: {
@@ -62,21 +64,26 @@ export default {
       });
       if (callback) callback();
     },
-    *fetchCurrent({ callback }, { select }) {
+    *fetchCurrent({ callback }, { select, put }) {
       // 从state中读取currentRegion
       let region = yield select(state => state.currentRegion);
-      if (!region) {
+      if (!region || !region.title) {
         region = JSON.parse(window.localStorage.getItem('weapp-region'));
+        yield put({
+          type: 'saveCurrentRegion',
+          payload: region,
+        });
       }
       if (callback) callback(region);
     },
-    *saveCurrent({ payload }, { put }) {
+    *saveCurrent({ payload, callback }, { put }) {
       // 使用localStorage做持久化存储
       window.localStorage.setItem('weapp-region', JSON.stringify(payload));
       yield put({
         type: 'saveCurrentRegion',
         payload,
       });
+      if (callback) callback(payload);
     },
   },
 
