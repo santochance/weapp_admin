@@ -54,7 +54,7 @@ export default class GlobalHeader extends PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, fetchingNotices, isMobile, logo,
+      currentUser, currentRegion, collapsed, fetchingNotices, isMobile, logo,
       onNoticeVisibleChange, onMenuClick, onNoticeClear,
     } = this.props;
     const menu = (
@@ -86,6 +86,7 @@ export default class GlobalHeader extends PureComponent {
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
         />
+        <Link to="/regions" className={styles.region}>{(currentRegion && currentRegion.title) || '未选择赛区'}</Link>
         <div className={styles.right}>
           <HeaderSearch
             className={`${styles.action} ${styles.search}`}

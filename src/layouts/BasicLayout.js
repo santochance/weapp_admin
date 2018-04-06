@@ -96,10 +96,10 @@ class BasicLayout extends React.PureComponent {
       },
     });
 
-    /* 测试 */
+    // 获取赛区数据
     this.props.dispatch({
-      type: 'region/fetch'
-    })
+      type: 'region/fetchCurrent',
+    });
   }
   getPageTitle() {
     const { routerData, location } = this.props;
@@ -160,7 +160,7 @@ class BasicLayout extends React.PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, fetchingNotices, notices, routerData, match, location,
+      currentUser, currentRegion, collapsed, fetchingNotices, notices, routerData, match, location,
     } = this.props;
     const bashRedirect = this.getBashRedirect();
     const layout = (
@@ -181,6 +181,7 @@ class BasicLayout extends React.PureComponent {
           <GlobalHeader
             logo={logo}
             currentUser={currentUser}
+            currentRegion={currentRegion}
             fetchingNotices={fetchingNotices}
             notices={notices}
             collapsed={collapsed}
@@ -252,8 +253,9 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ user, global, loading }) => ({
+export default connect(({ user, region, global, loading }) => ({
   currentUser: user.currentUser,
+  currentRegion: region.currentRegion,
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
