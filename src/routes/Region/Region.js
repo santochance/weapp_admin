@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Button, Icon, List, Popconfirm, message } from 'antd';
+import { Card, Button, Icon, List, Popconfirm, message, Modal } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import Ellipsis from '../../components/Ellipsis';
@@ -23,6 +23,14 @@ export default class Region extends PureComponent {
     this.props.dispatch({
       type: 'region/fetch',
     });
+  }
+
+  componentWillUnmount() {
+    if (!this.props.region.currentRegion.title) {
+      Modal.warning({
+        content: '当前未选择任何赛区！\n请先点击赛区卡片的“图片”或“标题文字”选择一个赛区。',
+      });
+    }
   }
 
   handleModalVisible = (flag, data) => {

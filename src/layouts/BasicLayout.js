@@ -121,6 +121,7 @@ class BasicLayout extends React.PureComponent {
       urlParams.searchParams.delete('redirect');
       window.history.replaceState(null, 'redirect', urlParams.href);
     } else {
+      // 对'/'的默认重定向
       // return '/dashboard/analysis';
       // return '/registrations';
       return '/regions';
@@ -197,6 +198,10 @@ class BasicLayout extends React.PureComponent {
                 redirectData.map(item =>
                   <Redirect key={item.from} exact from={item.from} to={item.to} />
                 )
+              }
+              {
+                location.pathname !== '/regions' &&
+                !currentRegion.title && <Redirect to="/regions" />
               }
               {
                 getRoutes(match.path, routerData).map(item =>
