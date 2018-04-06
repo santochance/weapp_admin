@@ -74,9 +74,13 @@ export default class Sort extends PureComponent {
         <Fragment>
           <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
           <Divider type="vertical" />
-          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
-            <a>删除</a>
-          </Popconfirm>
+          {record.locked === 'TRUE' ? (
+            <a disabled>删除</a>
+          ) : (
+            <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
+              <a>删除</a>
+            </Popconfirm>
+          )}
         </Fragment>
       ),
     },
