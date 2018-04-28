@@ -22,7 +22,8 @@ const sortNameToSortIdMap = {
   banners: '5a87acd317d00900353c76c7',
 };
 
-@connect(({ rule, content, global, loading }) => ({
+@connect(({ region, rule, content, global, loading }) => ({
+  region: region.currentRegion,
   rule,
   content,
   sortsList: global.sortsList,
@@ -44,10 +45,10 @@ export default class Registration extends PureComponent {
     console.log('TableList mounted with sortName:', sortName);
     this.sortName = sortName;
     this.sortId = sortNameToSortIdMap[sortName];
-    const { dispatch } = this.props;
+    const { dispatch, region } = this.props;
     dispatch({
       type: 'content/fetch',
-      payload: { sortName },
+      payload: { sortName, region },
     });
   }
 
@@ -115,6 +116,7 @@ export default class Registration extends PureComponent {
       type: 'content/remove',
       payload: {
         sortName: this.sortName,
+        region: this.props.region,
         objectId,
       },
     });
@@ -144,6 +146,7 @@ export default class Registration extends PureComponent {
       type: 'content/add',
       payload: {
         sortName: this.sortName,
+        region: this.props.region,
         objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
       },

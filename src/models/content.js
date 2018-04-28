@@ -10,7 +10,6 @@ export default {
     *fetch({ payload }, { call, put }) {
       console.log('call content/fetch');
       const response = yield call(queryContent, payload);
-      console.log('response of content/fetch', response);
       yield put({
         type: 'save',
         payload: {
@@ -32,7 +31,6 @@ export default {
     },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removeContent, payload);
-      console.log('response of content/remove', response);
       yield put({
         type: 'save',
         payload: {
@@ -45,7 +43,7 @@ export default {
   },
 
   reducers: {
-    save(state, { payload: { sortName, data }}) {
+    save(state, { payload: { sortName, data } }) {
       return {
         ...state,
         [sortName]: data,

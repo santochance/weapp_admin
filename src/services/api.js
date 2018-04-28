@@ -13,10 +13,13 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryContent({ sortName, objectId }) {
+export async function queryContent({ region, sortName, objectId }) {
   let endpoint = `/${sortName}`;
   if (objectId) {
     endpoint += `/${objectId}`;
+  }
+  if (region) {
+    endpoint += `?${region.objectId || region}`;
   }
   console.log('# queryContent request', endpoint);
   return request(endpoint, { forwards: true });
@@ -31,7 +34,7 @@ export async function removeContent({ sortName, objectId }) {
   });
 }
 
-export async function addContent({ sortName, objectId, entry }) {
+export async function addContent({ region, sortName, objectId, entry }) {
   const method = objectId ? 'PATCH' : 'POST';
   let endpoint = `/${sortName}`;
   if (objectId) {
@@ -43,6 +46,7 @@ export async function addContent({ sortName, objectId, entry }) {
     method,
     body: {
       ...entry,
+      region,
     },
   });
 }

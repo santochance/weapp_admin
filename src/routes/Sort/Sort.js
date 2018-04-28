@@ -12,7 +12,8 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ sort, content, global, loading }) => ({
+@connect(({ sort, region, content, global, loading }) => ({
+  region: region.currentRegion,
   sort,
   content,
   sortsList: global.sortsList,
@@ -30,11 +31,12 @@ export default class Sort extends PureComponent {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, region } = this.props;
     dispatch({
       type: 'sort/fetch',
       payload: {
         sortName: 'sorts',
+        region,
       },
     });
   }
@@ -92,6 +94,7 @@ export default class Sort extends PureComponent {
       payload: {
         sortName: 'sorts',
         objectId,
+        region: this.props.region,
       },
     });
   }
@@ -120,6 +123,7 @@ export default class Sort extends PureComponent {
       type: 'sort/add',
       payload: {
         sortName: 'sorts',
+        region: this.props.region,
         objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
       },
