@@ -11,12 +11,12 @@ const columns = [
     className: styles.colTitle,
   },
   {
-    title: '分类',
+    title: '导师团',
     dataIndex: 'sort',
     render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
   },
   {
-    title: '描述',
+    title: '简介',
     dataIndex: 'desc',
     className: styles.colDesc,
   },

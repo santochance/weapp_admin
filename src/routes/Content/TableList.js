@@ -4,7 +4,9 @@ import moment from 'moment';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, /* Modal, message, Badge,  */Divider, Popconfirm } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import ModalForm from '../../components/ModalForm';
+// import ModalForm from '../../components/ModalForm';
+import TutorForm from './TutorForm';
+import ModalForm from './TutorModalForm';
 
 import styles from './TableList.less';
 
@@ -472,6 +474,7 @@ export default class TableList extends PureComponent {
           onModalOk={this.handleModalOk}
           onModalCancel={() => this.handleModalVisible(false)}
           data={modalData}
+          form={TutorForm}
           onModalDataChange={this.handleModalDataChange}
           sortId={this.sortId}
         />
