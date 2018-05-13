@@ -33,6 +33,29 @@ export default class Region extends PureComponent {
     }
   }
 
+  normFormData = (data) => {
+    /* 文件字段的转换处理 */
+    const { pics } = data;
+    /* sort字段后端要求Number, 前端要求String的转换处理 */
+    const updates = {};
+    if ('sort' in data) {
+      updates.sort = Number(data.sort);
+    }
+    if (pics && pics.length > 0) {
+      // 提取文件列表
+      const newPics = pics.reduce((rst, file) => {
+        if (file.url) {
+          rst.push({ url: file.url, uid: file.uid });
+        } else if (file.status === 'done' && file.response) {
+          rst.push({ url: file.response.url, uid: file.response.uid });
+        }
+        return rst;
+      }, []);
+      updates.pics = newPics;
+    }
+    return { ...data, ...updates };
+  }
+
   handleModalVisible = (flag, data) => {
     this.setState({
       modalVisible: !!flag,

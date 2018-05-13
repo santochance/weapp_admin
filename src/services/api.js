@@ -19,7 +19,7 @@ export async function queryContent({ region, sortName, objectId }) {
     endpoint += `/${objectId}`;
   }
   if (region) {
-    endpoint += `?${region.objectId || region}`;
+    endpoint += `?region=${region.objectId || region}`;
   }
   console.log('# queryContent request', endpoint);
   return request(endpoint, { forwards: true });
@@ -51,40 +51,34 @@ export async function addContent({ region, sortName, objectId, entry }) {
   });
 }
 
-export async function queryRegion({ sortName, objectId }) {
-  let endpoint = `/${sortName}`;
-  if (objectId) {
-    endpoint += `/${objectId}`;
-  }
-  console.log('# queryRegion request', endpoint);
-  return request(endpoint, { forwards: false });
+export async function queryRegion() {
+  const endpoint = '/regions';
+  return request(endpoint, { forwards: true });
 }
 
-export async function removeRegion({ sortName, objectId }) {
-  const endpoint = `/${sortName}`;
-  console.log('# removeRegion request', endpoint);
+export async function removeRegion({ objectId = '' }) {
+  const endpoint = '/regions';
   return request(`${endpoint}/${objectId}?query`, {
-    forwards: false,
+    forwards: true,
     method: 'DELETE',
   });
 }
 
-export async function addRegion({ sortName, objectId, entry }) {
+export async function addRegion({ objectId = '', entry }) {
   const method = objectId ? 'PATCH' : 'POST';
-  let endpoint = `/${sortName}`;
+  let endpoint = '/regions';
   if (objectId) {
     endpoint += `/${objectId}`;
   }
   endpoint += '?query';
   return request(endpoint, {
-    forwards: false,
+    forwards: true,
     method,
     body: {
       ...entry,
     },
   });
 }
-
 
 export async function queryRule() {
   // return request(`/api/rule?${stringify(params)}`);

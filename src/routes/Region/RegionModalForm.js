@@ -7,7 +7,8 @@ export default class RegionModalForm extends React.Component {
 
   handleOk = () => {
     const { onModalOk } = this.props;
-    const { formRef: form } = this;
+    const { formRef: { props: { form } } } = this;
+
     form.validateFieldsAndScroll((err) => {
       if (!err) {
         if (onModalOk) {

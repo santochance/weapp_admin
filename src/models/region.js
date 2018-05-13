@@ -40,9 +40,9 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
-      const response = mockFecthRes;
-      console.log('response', JSON.stringify(response));
+    *fetch(_, { call, put }) {
+      // const response = mockFecthRes;
+      const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
@@ -91,7 +91,7 @@ export default {
     save(state, action) {
       return {
         ...state,
-        list: action.payload.list,
+        list: action.payload.data,
       };
     },
     saveCurrentRegion(state, action) {
