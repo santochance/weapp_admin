@@ -18,19 +18,20 @@ export default class FormModal extends React.Component {
   }
 
   handleCancel = () => {
-    Modal.confirm({
-      title: '关闭编辑框',
-      content: '正在关闭当前编辑框，未保存的内容将会丢失。确定要关闭？',
-      maskClosable: true,
-      cancelText: '返回编辑',
-      okText: '确定关闭',
-      okType: 'danger',
-      onOk: () => {
-        if (this.props.onModalCancel) {
-          this.props.onModalCancel();
-        }
-      },
-    });
+    const { formRef: { props: { form } } } = this;
+    const { onModalCancel = () => {} } = this.props;
+    if (form.isFieldsTouched()) {
+      return Modal.confirm({
+        title: '关闭编辑框',
+        content: '正在关闭当前编辑框，未保存的内容将会丢失。确定要关闭？',
+        maskClosable: true,
+        cancelText: '返回编辑',
+        okText: '确定关闭',
+        okType: 'danger',
+        onOk: () => onModalCancel(),
+      });
+    }
+    return onModalCancel();
   }
 
   render() {
