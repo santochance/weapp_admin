@@ -142,13 +142,7 @@ export default class TableList extends PureComponent {
 
   handleModalOk = (formData) => {
     // 提取新增或更新内容
-    let entry;
-    if (this.state.modalData) {
-      entry = this.modalChangedKeys.reduce((u, key) => ({ ...u, [key]: formData[key] }), {});
-    } else {
-      entry = { ...formData };
-    }
-
+    let entry = formData;
     entry = this.normFormData(entry);
 
     /* 填充分类数据 */
@@ -207,18 +201,6 @@ export default class TableList extends PureComponent {
       modalData: data,
     });
     this.modalChangedKeys = [];
-  }
-
-  handleModalDataChange = (key) => {
-    if (this.state.modalData) {
-      const { modalChangedKeys = [] } = this;
-      if (modalChangedKeys.indexOf(key) < 0) {
-        // this.setState({
-        //   modalChangedKeys: [...modalChangedKeys, key],
-        // });
-        this.modalChangedKeys.push(key);
-      }
-    }
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -488,7 +470,6 @@ export default class TableList extends PureComponent {
           onModalCancel={() => this.handleModalVisible(false)}
           data={modalData}
           controls={controls}
-          onModalDataChange={this.handleModalDataChange}
           sortId={this.sortId}
         />
       </PageHeaderLayout>

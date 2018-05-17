@@ -5,12 +5,26 @@ import QuickForm from '../../components/QuickForm';
 export default class FormModal extends React.Component {
   state = {}
 
+  getDirtyFieldValues = (form) => {
+    const { controls } = this.props;
+    // 遍历controls
+    // 筛选出dirty control的值
+    return controls.reduce((rst, control) => {
+      const { name } = control;
+      return form.isFieldTouched(name)
+        ? { ...rst, [name]: form.getFieldValue(name) }
+        : rst;
+    }, {});
+  }
+
   handleOk = () => {
-    const { onModalOk } = this.props;
     const { formRef: { props: { form } } } = this;
     form.validateFieldsAndScroll((err) => {
       if (!err) {
-        if (onModalOk) {
+        const { onModalOk = () => {}, data } = this.props;
+        if (data) {
+          onModalOk(this.getDirtyFieldValues(form));
+        } else {
           onModalOk(form.getFieldsValue());
         }
       }

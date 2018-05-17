@@ -71,12 +71,6 @@ function transformTree(list) {
       }, {});
     }
   },
-  onValuesChange: (props, values) => {
-    if (props.onValuesChange) {
-      const key = Object.keys(values)[0];
-      props.onValuesChange(key, values[key]);
-    }
-  },
 })
 export default class QuickForm extends React.Component {
   state = {
