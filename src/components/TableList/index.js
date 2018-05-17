@@ -78,53 +78,6 @@ export default class TableList extends PureComponent {
     this.columns = columns ? [...columns, actionCol] : defaultColumns;
   }
 
-  columns = [
-    // {
-    //   title: '编号',
-    //   dataIndex: 'id',
-    // },
-    {
-      title: '标题',
-      dataIndex: 'title',
-      className: styles.colTitle,
-    },
-    {
-      title: '分类',
-      dataIndex: 'sort',
-      // sorter: true,
-      // align: 'right',
-      render: (text, record) => <a href={record.slink}>{record.sname || text}</a>,
-      // // mark to display a total number
-      // needTotal: true,
-    },
-    {
-      title: '描述',
-      dataIndex: 'desc',
-      className: styles.colDesc,
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updatedAt',
-      className: styles.colUpdatedAt,
-      // sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
-          <Divider type="vertical" />
-          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
-            <a>删除</a>
-          </Popconfirm>
-        </Fragment>
-      ),
-    },
-  ];
-
-
   handleRemove = ({ objectId }) => {
     this.props.dispatch({
       type: 'content/remove',
