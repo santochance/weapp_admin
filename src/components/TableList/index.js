@@ -72,10 +72,6 @@ export default class TableList extends PureComponent {
         </Fragment>
       ),
     };
-
-    const { columns } = this.props;
-    const { columns: defaultColumns } = this;
-    this.columns = columns ? [...columns, actionCol] : defaultColumns;
   }
 
   handleRemove = ({ objectId }) => {
@@ -372,7 +368,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const { sortName } = this;
-    const { content: { [sortName]: data = {} }, loading, controls } = this.props;
+    const { content: { [sortName]: data = {} }, loading, columns, controls } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
     const menu = (
@@ -410,7 +406,7 @@ export default class TableList extends PureComponent {
               selectedRows={selectedRows}
               loading={loading}
               data={data}
-              columns={this.columns}
+              columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
