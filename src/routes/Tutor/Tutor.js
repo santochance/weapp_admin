@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import TableList from '../../components/TableList';
-import picFieldAdapter from '../../utils/picFieldAdapter';
 import styles from './Tutor.less';
 
 const columns = [
@@ -37,9 +36,10 @@ const controls = [
   }, {
     label: '导师团',
     name: 'tutorGroup',
-    dataIndex: 'tutorGroup',
+    dataIndex: ({ tutorGroup }) => (typeof tutorGroup === 'string' ? tutorGroup : tutorGroup.objectId),
     type: 'select',
     treeData: [],
+    source: '/tutorGroups',
   }, {
     label: '导师名称',
     name: 'title',
@@ -52,7 +52,7 @@ const controls = [
   }, {
     label: '头像',
     name: 'pic',
-    dataIndex: ({ pic }) => picFieldAdapter(pic),
+    dataIndex: 'pic',
     type: 'upload',
     uploadField: '',
     action: '',
