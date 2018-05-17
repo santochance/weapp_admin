@@ -28,7 +28,7 @@ export async function queryContent({ region, sortName, objectId }) {
 export async function removeContent({ sortName, objectId }) {
   const endpoint = `/${sortName}`;
   console.log('# removeContent request', endpoint);
-  return request(`${endpoint}/${objectId}?query`, {
+  return request(`${endpoint}/${objectId}`, {
     forwards: true,
     method: 'DELETE',
   });
@@ -40,7 +40,6 @@ export async function addContent({ region, sortName, objectId, entry }) {
   if (objectId) {
     endpoint += `/${objectId}`;
   }
-  endpoint += '?query';
   return request(endpoint, {
     forwards: true,
     method,

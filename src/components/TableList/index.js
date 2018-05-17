@@ -47,10 +47,16 @@ export default class TableList extends PureComponent {
     console.log('TableList mounted with sortName:', sortName);
     this.sortName = sortName;
     this.sortId = sortNameToSortIdMap[sortName];
-    const { dispatch, region } = this.props;
-    dispatch({
+    this.props.dispatch({
       type: 'content/fetch',
-      payload: { sortName, region },
+      payload: {
+        sortName,
+        region: {
+          __type: 'Pointer',
+          className: 'Region',
+          objectId: this.props.region.objectId,
+        },
+      },
     });
 
     const actionCol = {
@@ -124,7 +130,11 @@ export default class TableList extends PureComponent {
       type: 'content/remove',
       payload: {
         sortName: this.sortName,
-        region: this.props.region,
+        region: {
+          __type: 'Pointer',
+          className: 'Region',
+          objectId: this.props.region.objectId,
+        },
         objectId,
       },
     });
@@ -154,7 +164,11 @@ export default class TableList extends PureComponent {
       type: 'content/add',
       payload: {
         sortName: this.sortName,
-        region: this.props.region,
+        region: {
+          __type: 'Pointer',
+          className: 'Region',
+          objectId: this.props.region.objectId,
+        },
         objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
       },

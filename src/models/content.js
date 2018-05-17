@@ -8,7 +8,6 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      console.log('call content/fetch');
       const response = yield call(queryContent, payload);
       yield put({
         type: 'save',
@@ -19,7 +18,9 @@ export default {
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addContent, payload);
+      yield call(addContent, payload);
+      const response = yield call(queryContent,
+        { region: payload.region, sortName: payload.sortName });
       yield put({
         type: 'save',
         payload: {
@@ -30,7 +31,9 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeContent, payload);
+      yield call(removeContent, payload);
+      const response = yield call(queryContent,
+        { region: payload.region, sortName: payload.sortName });
       yield put({
         type: 'save',
         payload: {
