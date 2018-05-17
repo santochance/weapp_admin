@@ -62,20 +62,16 @@ const menuData = [{
     path: 'news',
   }],
 }, {
-  name: '表单页',
+  name: '导师管理',
   icon: 'form',
-  path: 'form',
-  hideInMenu: true,
+  path: 'tutor',
   children: [{
-    name: '基础表单',
-    path: 'basic-form',
+    name: '导师团',
+    path: 'tutorGroups',
   }, {
-    name: '分步表单',
-    path: 'step-form',
-  }, {
-    name: '高级表单',
-    authority: 'admin',
-    path: 'advanced-form',
+    name: '导师',
+    // authority: 'admin',
+    path: 'tutors',
   }],
 }, {
   name: '列表页',
