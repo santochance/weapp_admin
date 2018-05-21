@@ -25,7 +25,7 @@ export async function queryContent({ region, sortName, objectId }) {
   return request(endpoint, { forwards: true });
 }
 
-export async function removeContent({ sortName, objectId }) {
+export async function removeContent({ region, sortName, objectId }) {
   const endpoint = `/${sortName}`;
   console.log('# removeContent request', endpoint);
   return request(`${endpoint}/${objectId}`, {
@@ -69,7 +69,6 @@ export async function addRegion({ objectId = '', entry }) {
   if (objectId) {
     endpoint += `/${objectId}`;
   }
-  endpoint += '?query';
   return request(endpoint, {
     forwards: true,
     method,
@@ -152,8 +151,7 @@ export async function fakeRegister(params) {
 }
 
 export async function register(params) {
-  console.log('api get parmas:', params);
-  return request('/auth/signup', {
+  return request('/user/signup', {
     forwards: true,
     method: 'POST',
     body: params,
@@ -161,7 +159,7 @@ export async function register(params) {
 }
 
 export async function login(params) {
-  return request('/auth/signin', {
+  return request('/user/login', {
     forwards: true,
     method: 'POST',
     body: params,

@@ -5,6 +5,5 @@ export async function query() {
 }
 
 export async function queryCurrent() {
-  console.log('request queryCurrent User');
-  return request('/auth/currentUser', { forwards: true });
+  return request('/user/currentUser', { forwards: true });
 }

@@ -17,7 +17,7 @@ export default {
         payload: response,
       });
     },
-    *fetchCurrent(_, { call, put }) {
+    *fetchCurrent({ callback }, { call, put }) {
       const response = yield call(queryCurrent);
       console.log('fetch current user response:', response);
       yield put({
@@ -29,6 +29,7 @@ export default {
         yield put(routerRedux.push('/user/login'));
       } else {
         yield put(routerRedux.push('/'));
+        if (callback) callback();
       }
     },
   },

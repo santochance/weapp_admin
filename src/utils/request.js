@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router';
 import store from '../index';
 
 // const HOST = 'https://vc-weapp.leanapp.cn/api/v1';
-const HOST = 'http://192.168.1.102:6001/api/v1';
+const HOST = 'http://192.168.1.101:6001/api/v1';
 // const HOST = 'http://test-bosssee.leanapp.cn/api/v1';
 
 
@@ -62,8 +62,8 @@ export default function request(url, options) {
     newOptions.body = JSON.stringify(newOptions.body);
   }
   // console.log('options:', options);
-  const u = (options && options.forwards) ? HOST + url : url;
-  return fetch(u, newOptions)
+  // const u = (options && options.forwards) ? HOST + url : url;
+  return fetch(HOST + url, newOptions)
     .then(checkStatus)
     .then((response) => {
       // if (newOptions.method === 'DELETE' || response.status === 204) {
