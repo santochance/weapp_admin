@@ -32,11 +32,23 @@ const controls = [
     label: '导师团名称',
     name: 'title',
     dataIndex: 'title',
+    rules: [
+      {
+        required: true,
+        message: '请填写导师团名称',
+      },
+    ],
   }, {
-    label: '描述',
+    label: '导师团简介',
     name: 'desc',
     dataIndex: 'desc',
     type: 'textarea',
+    rules: [
+      {
+        required: true,
+        message: '请填写导师团名称',
+      },
+    ],
   },
 ];
 
