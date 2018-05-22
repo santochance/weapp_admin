@@ -20,7 +20,12 @@ export default {
     *add({ payload, callback }, { call, put }) {
       yield call(addContent, payload);
       const response = yield call(queryContent,
-        { region: payload.region, sortName: payload.sortName });
+        {
+          region: payload.region,
+          sortName: payload.sortName,
+          qs: payload.qs,
+        }
+      );
       yield put({
         type: 'save',
         payload: {
@@ -33,7 +38,12 @@ export default {
     *remove({ payload, callback }, { call, put }) {
       yield call(removeContent, payload);
       const response = yield call(queryContent,
-        { region: payload.region, sortName: payload.sortName });
+        {
+          region: payload.region,
+          sortName: payload.sortName,
+          qs: payload.qs,
+        }
+      );
       yield put({
         type: 'save',
         payload: {

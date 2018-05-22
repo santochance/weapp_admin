@@ -56,6 +56,7 @@ export default class TableList extends PureComponent {
           className: 'Region',
           objectId: this.props.region.objectId,
         },
+        qs: this.props.qs,
       },
     });
   }
@@ -71,6 +72,7 @@ export default class TableList extends PureComponent {
           objectId: this.props.region.objectId,
         },
         objectId,
+        qs: this.props.qs,
       },
     });
   }
@@ -90,6 +92,7 @@ export default class TableList extends PureComponent {
         },
         objectId: this.state.modalData && this.state.modalData.objectId,
         entry,
+        qs: this.props.qs,
       },
     });
 

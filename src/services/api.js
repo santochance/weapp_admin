@@ -13,13 +13,17 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryContent({ region, sortName, objectId }) {
+export async function queryContent({ region, sortName, objectId, qs = {} }) {
   let endpoint = `/${sortName}`;
+  const queryStr = stringify({
+    region: region.objectId || region,
+    ...qs,
+  });
   if (objectId) {
     endpoint += `/${objectId}`;
   }
-  if (region) {
-    endpoint += `?region=${region.objectId || region}`;
+  if (queryStr) {
+    endpoint += `?${queryStr}`;
   }
   console.log('# queryContent request', endpoint);
   return request(endpoint, { forwards: true });
