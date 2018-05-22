@@ -58,24 +58,6 @@ export default class TableList extends PureComponent {
         },
       },
     });
-
-    const actionCol = {
-      title: '操作',
-      key: 'action',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
-          <Divider type="vertical" />
-          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
-            <a>删除</a>
-          </Popconfirm>
-        </Fragment>
-      ),
-    };
-
-    const { columns } = this.props;
-    const { columns: defaultColumns } = this;
-    this.columns = columns ? [...columns, actionCol] : defaultColumns;
   }
 
   handleRemove = ({ objectId }) => {
@@ -339,7 +321,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const { sortName } = this;
-    const { content: { [sortName]: data = {} }, loading, controls } = this.props;
+    const { content: { [sortName]: data = {} }, loading, controls, columns } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
     const menu = (
@@ -348,6 +330,20 @@ export default class TableList extends PureComponent {
         <Menu.Item key="approval">批量审批</Menu.Item>
       </Menu>
     );
+
+    const actionCol = {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <Fragment>
+          <a onClick={() => this.handleModalVisible(true, record)}>编辑</a>
+          <Divider type="vertical" />
+          <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(record)}>
+            <a>删除</a>
+          </Popconfirm>
+        </Fragment>
+      ),
+    };
 
     return (
       <PageHeaderLayout title="查询表格">
@@ -377,7 +373,7 @@ export default class TableList extends PureComponent {
               selectedRows={selectedRows}
               loading={loading}
               data={data}
-              columns={this.columns}
+              columns={[...columns, actionCol]}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
