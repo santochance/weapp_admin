@@ -18,6 +18,7 @@ export default class FormModal extends React.Component {
   }
 
   handleUploadType = (files) => {
+    if (!files) return [];
     return files.map((file) => {
       if (!file.response || !file.status) {
         return file;
