@@ -129,6 +129,7 @@ export default class QuickForm extends React.Component {
         <FormItem {...formItemLayout} key={reactKey} label={control.label}>
           {getFieldDecorator(control.name, {
             initialValue: control.initialValue,
+            rules: control.rules,
           })(
             <Input placeholder={control.placeholder} />
           )}
@@ -139,6 +140,7 @@ export default class QuickForm extends React.Component {
         <FormItem {...formItemLayout} key={reactKey} label={control.label}>
           {getFieldDecorator(control.name, {
             initialValue: control.initialValue,
+            rules: control.rules,
           })(
             <TextArea placeholder={control.placeholder} />
           )}
@@ -148,7 +150,9 @@ export default class QuickForm extends React.Component {
       const treeData = this.state.treeDataDict[control.name];
       return (
         <FormItem {...formItemLayout} key={reactKey} label={control.label}>
-          {getFieldDecorator(control.name)(
+          {getFieldDecorator(control.name, {
+            rules: control.rules,
+          })(
             <TreeSelect
               style={{ width: 300 }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -165,6 +169,7 @@ export default class QuickForm extends React.Component {
           {getFieldDecorator(control.name, {
             valuePropName: 'fileList',
             getValueFromEvent: this.normFile,
+            rules: control.rules,
           })(
             <PicturesWall
               name={control.uploadField || 'pics'}
