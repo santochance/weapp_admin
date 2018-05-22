@@ -17,16 +17,44 @@ export default class FormModal extends React.Component {
     }, {});
   }
 
+  handleUploadType = (files) => {
+    return files.map((file) => {
+      if (!file.response || !file.status) {
+        return file;
+      } else if (file.status === 'done') {
+        const { url, uid, thumbnailUrl } = file.response;
+        return { url, uid, thumbnailUrl };
+      }
+      return undefined;
+    });
+  }
+
   handleOk = () => {
     const { formRef: { props: { form } } } = this;
     form.validateFieldsAndScroll((err) => {
       if (!err) {
-        const { onModalOk = () => {}, data } = this.props;
-        if (data) {
-          onModalOk(this.getDirtyFieldValues(form));
-        } else {
-          onModalOk(form.getFieldsValue());
-        }
+        const { onModalOk = () => {}, data, controls } = this.props;
+        let outputData = data ? this.getDirtyFieldValues(form)
+          : form.getFieldsValue();
+
+        controls.forEach((control) => {
+          const key = control.name;
+          if (!(key in outputData)) return;
+
+          let value = outputData[key];
+          // 注意Upload组件中fileList的对象结构
+          if (control.type === 'upload') {
+            value = this.handleUploadType(value);
+          }
+
+          if (control.outputTransform) {
+            outputData = {
+              ...outputData,
+              [key]: control.outputTransform(value),
+            };
+          }
+        });
+        onModalOk(outputData);
       }
     });
   }
