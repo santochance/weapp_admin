@@ -8,6 +8,8 @@ import RegionModalForm from './RegionModalForm';
 
 import styles from './Region.less';
 
+const flags = {};
+
 @connect(({ region, loading }) => ({
   region,
   loading: loading.models.region,
@@ -20,14 +22,31 @@ export default class Region extends PureComponent {
   }
 
   componentDidMount() {
+    console.log('mouted');
     this.props.dispatch({
       type: 'region/fetch',
+      callback: (regions) => {
+        console.log('regions:', regions);
+        if (!regions) {
+          Modal.warn({
+            content: '没有查询到赛区信息，请稍候重试!',
+          });
+        // 如果regions为空，弹出提示框
+        } else if (!regions.length && !flags.emptyListModal) {
+          console.log('list empty');
+          flags.emptyListModal = Modal.info({
+            content: '当前还没有任何赛区，请首先添加一个赛区。',
+            onOk: () => { flags.emptyListModal = null; },
+          });
+        }
+      },
     });
   }
 
   componentWillUnmount() {
-    if (!this.props.region.currentRegion.title) {
-      Modal.warning({
+    console.log('unmounted');
+    if (!this.props.region.currentRegion.title && !flags.noCurrentRegion && !flags.emptyListModal) {
+      flags.noCurrentRegion = Modal.warning({
         content: '当前未选择任何赛区！\n请先点击赛区卡片的“图片”或“标题文字”选择一个赛区。',
       });
     }
@@ -161,7 +180,8 @@ export default class Region extends PureComponent {
               <List.Item key={item.objectId}>
                 <Card
                   hoverable
-                  className={item.objectId === currentRegion.objectId ? styles.activeCard : styles.card}
+                  className={item.objectId === currentRegion.objectId
+                    ? styles.activeCard : styles.card}
                   cover={<img alt="" src={item.pic} onClick={() => this.handleSelect(item)} />}
                   actions={[
                     <a onClick={() => this.handleModalVisible(true, item)}>编辑</a>,

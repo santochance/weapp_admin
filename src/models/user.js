@@ -28,7 +28,20 @@ export default {
         console.log('当前无用户，重写向到登录页');
         yield put(routerRedux.push('/user/login'));
       } else {
-        yield put(routerRedux.push('/'));
+        /*
+          如果使用下面语句跳转到'/', 可能会导致
+            组件多出一次额外的mount和unmount
+
+         比如通过'/#/regions'打开页面, 假设页面组件是Region, 内部流程是:
+            Region mounted
+            获取currentUser成功, 重写向到'/'
+            Region unmounted
+            假设'/'会自动重定向到'/#/regions'
+            Region mounted
+            ...
+        */
+
+        // yield put(routerRedux.push('/'));
         if (callback) callback();
       }
     },

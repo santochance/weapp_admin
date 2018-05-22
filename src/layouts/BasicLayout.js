@@ -87,23 +87,33 @@ class BasicLayout extends React.PureComponent {
     });
     this.props.dispatch({
       type: 'user/fetchCurrent',
-    });
-
-    // 获取赛区数据
-    this.props.dispatch({
-      type: 'region/fetchCurrent',
-      callback: (region) => {
-        console.log('initial fetch of region:', region);
-        // 获取分类数据
+      callback: () => {
         this.props.dispatch({
-          type: 'sort/fetch',
-          payload: {
-            sortName: 'sorts',
-            region,
+          type: 'region/fecth',
+          callback: () => {
+            this.props.dispatch({
+              type: 'region/fetchCurrent',
+            });
           },
         });
       },
     });
+
+    // 获取赛区数据
+    // this.props.dispatch({
+    //   type: 'region/fetchCurrent',
+    //   callback: (region) => {
+    //     console.log('initial fetch of region:', region);
+    //     // 获取分类数据
+    //     // this.props.dispatch({
+    //     //   type: 'sort/fetch',
+    //     //   payload: {
+    //     //     sortName: 'sorts',
+    //     //     region,
+    //     //   },
+    //     // });
+    //   },
+    // });
   }
   getPageTitle() {
     const { routerData, location } = this.props;

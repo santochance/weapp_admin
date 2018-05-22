@@ -40,16 +40,18 @@ export default {
   },
 
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch({ callback }, { call, put }) {
       // const response = mockFecthRes;
       const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
       });
+      if (callback) callback(response.data);
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRegion, payload);
+      yield call(addRegion, payload);
+      const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
@@ -57,7 +59,8 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRegion, payload);
+      yield call(removeRegion, payload);
+      const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
