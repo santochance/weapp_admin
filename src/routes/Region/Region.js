@@ -45,9 +45,10 @@ export default class Region extends PureComponent {
 
   componentWillUnmount() {
     console.log('unmounted');
-    if (!this.props.region.currentRegion.title && !flags.noCurrentRegion && !flags.emptyListModal) {
+    if (!this.props.region.currentRegion.objectId && !flags.noCurrentRegion && !flags.emptyListModal) {
       flags.noCurrentRegion = Modal.warning({
         content: '当前未选择任何赛区！\n请先点击赛区卡片的“图片”或“标题文字”选择一个赛区。',
+        onOk: () => { flags.noCurrentRegion = null },
       });
     }
   }

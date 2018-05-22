@@ -41,7 +41,6 @@ export default {
 
   effects: {
     *fetch({ callback }, { call, put }) {
-      // const response = mockFecthRes;
       const response = yield call(queryRegion);
       yield put({
         type: 'save',
@@ -49,34 +48,70 @@ export default {
       });
       if (callback) callback(response.data);
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call, put, select }) {
       yield call(addRegion, payload);
       const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
       });
+
+      const currentRegion = yield select(state => state.region.currentRegion);
+      if (currentRegion.objectId === payload.objectId) {
+        // currentRegion被更新了
+        // 从响应数据中搜索新的currentRegion
+        const newRegion = response.data.find(item => item.objectId === payload.objectId);
+        window.localStorage.setItem('weapp-region', JSON.stringify(newRegion));
+        yield put({
+          type: 'saveCurrentRegion',
+          payload: newRegion,
+        });
+      }
+
       if (callback) callback();
     },
-    *remove({ payload, callback }, { call, put }) {
+    *remove({ payload, callback }, { call, put, select }) {
       yield call(removeRegion, payload);
       const response = yield call(queryRegion);
       yield put({
         type: 'save',
         payload: response,
       });
+
+      const currentRegion = yield select(state => state.region.currentRegion);
+      if (currentRegion.objectId === payload.objectId) {
+        // currentRegion被删除了
+        // 新的currentRegion设置为{}
+        const newRegion = {};
+        window.localStorage.setItem('weapp-region', JSON.stringify(newRegion));
+        yield put({
+          type: 'saveCurrentRegion',
+          payload: newRegion,
+        });
+      }
+
       if (callback) callback();
     },
     *fetchCurrent({ callback }, { select, put }) {
       // 从state中读取currentRegion
-      let region = yield select(state => state.currentRegion);
-      if (!region || !region.title) {
+      let region = yield select(state => state.region.currentRegion);
+      if (!region || !region.objectId) {
+        // state中没有则从localStorage读取，然后从state.list中搜索
         region = JSON.parse(window.localStorage.getItem('weapp-region'));
-        yield put({
-          type: 'saveCurrentRegion',
-          payload: region,
-        });
+        const list = yield select(state => state.region.list);
+        if (!list) {
+          region = {};
+        } else {
+          // 如果没有找到, region为undefined
+          region = list.find(item => item.objectId === region.objectId) || {};
+        }
       }
+      window.localStorage.setItem('weapp-region', JSON.stringify(region));
+      yield put({
+        type: 'saveCurrentRegion',
+        payload: region,
+      });
+
       if (callback) callback(region);
     },
     *saveCurrent({ payload, callback }, { put }) {
