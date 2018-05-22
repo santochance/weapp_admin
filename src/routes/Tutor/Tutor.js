@@ -52,6 +52,7 @@ const controls = [
     label: '头像',
     name: 'pic',
     dataIndex: 'pic',
+    outputTransform: (pics) => pics[0],
     type: 'upload',
     uploadField: '',
     action: '',
