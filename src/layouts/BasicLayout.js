@@ -89,7 +89,7 @@ class BasicLayout extends React.PureComponent {
       type: 'user/fetchCurrent',
       callback: () => {
         this.props.dispatch({
-          type: 'region/fecth',
+          type: 'region/fetch',
           callback: () => {
             this.props.dispatch({
               type: 'region/fetchCurrent',
