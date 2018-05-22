@@ -97,13 +97,17 @@ export default {
       let region = yield select(state => state.region.currentRegion);
       if (!region || !region.objectId) {
         // state中没有则从localStorage读取，然后从state.list中搜索
-        region = JSON.parse(window.localStorage.getItem('weapp-region'));
-        const list = yield select(state => state.region.list);
-        if (!list) {
+        try {
+          region = JSON.parse(window.localStorage.getItem('weapp-region'));
+          const list = yield select(state => state.region.list);
+          if (!list) {
+            region = {};
+          } else {
+            // 如果没有找到, region为undefined
+            region = list.find(item => item.objectId === region.objectId) || {};
+          }
+        } catch(e) {
           region = {};
-        } else {
-          // 如果没有找到, region为undefined
-          region = list.find(item => item.objectId === region.objectId) || {};
         }
       }
       window.localStorage.setItem('weapp-region', JSON.stringify(region));

@@ -5,8 +5,10 @@ import { Card, Button, Icon, List, Popconfirm, message, Modal } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import Ellipsis from '../../components/Ellipsis';
 import RegionModalForm from './RegionModalForm';
+import DelPrompt from './DelPrompt';
 
 import styles from './Region.less';
+
 
 const flags = {};
 
@@ -19,6 +21,8 @@ export default class Region extends PureComponent {
     modalVisible: false,
     modalTitle: '',
     modalData: undefined,
+    delPromptVisible: false,
+    delPromptData: undefined,
   }
 
   componentDidMount() {
@@ -126,7 +130,18 @@ export default class Region extends PureComponent {
     this.handleModalVisible(false);
   }
 
-  handleRemove = ({ objectId }) => {
+  handleRemove = (data) => {
+    this.handleDelPromptVisible(true, data);
+  }
+
+  handleDelPromptVisible = (flag, data) => {
+    this.setState({
+      delPromptVisible: !!flag,
+      delPromptData: data,
+    });
+  }
+  handleDelPromptOk = ({ objectId }) => {
+    this.handleDelPromptVisible(false);
     this.props.dispatch({
       type: 'region/remove',
       payload: {
@@ -134,6 +149,7 @@ export default class Region extends PureComponent {
       },
     });
   }
+
 
   handleSelect = (item) => {
     this.props.dispatch({
@@ -147,7 +163,7 @@ export default class Region extends PureComponent {
 
   render() {
     const { region: { list, currentRegion }, loading } = this.props;
-    const { modalVisible, modalTitle, modalData } = this.state;
+    const { modalVisible, modalTitle, modalData, delPromptVisible, delPromptData } = this.state;
 
     const content = (
       <div className={styles.pageHeaderContent}>
@@ -186,7 +202,7 @@ export default class Region extends PureComponent {
                   cover={<img alt="" src={item.pic} onClick={() => this.handleSelect(item)} />}
                   actions={[
                     <a onClick={() => this.handleModalVisible(true, item)}>编辑</a>,
-                    <Popconfirm title="是否要删除此行？" onConfirm={() => this.handleRemove(item)}>
+                    <Popconfirm title="是否要删除此项？" onConfirm={() => this.handleRemove(item)}>
                       <a>删除</a>
                     </Popconfirm>,
                   ]}
@@ -219,6 +235,19 @@ export default class Region extends PureComponent {
             data={modalData}
             onModalDataChange={this.handleModalDataChange}
           />
+          <Modal
+            visible={delPromptVisible}
+            closable={false}
+            okType="danger"
+            onOk={this.formRef && this.formRef.onSubmit}
+            onCancel={() => this.handleDelPromptVisible(false)}
+          >
+            <DelPrompt
+              data={delPromptData}
+              wrappedComponentRef={(inst) => { this.formRef = inst; }}
+              onSubmit={this.handleDelPromptOk}
+            />
+          </Modal>
         </div>
       </PageHeaderLayout>
     );
