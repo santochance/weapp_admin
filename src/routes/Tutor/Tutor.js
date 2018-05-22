@@ -36,9 +36,8 @@ const controls = [
   }, {
     label: '导师团',
     name: 'tutorGroup',
-    dataIndex: ({ tutorGroup }) => (typeof tutorGroup === 'string' ? tutorGroup : tutorGroup.objectId),
+    dataIndex: ({ tutorGroup }) => (typeof tutorGroup === 'object' ? tutorGroup.objectId : tutorGroup),
     type: 'select',
-    treeData: [],
     source: '/tutorGroups',
   }, {
     label: '导师名称',
