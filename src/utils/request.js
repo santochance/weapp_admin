@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router';
 import store from '../index';
 
 // const HOST = 'https://vc-weapp.leanapp.cn/api/v1';
-const HOST = 'http://192.168.1.101:6001/api/v1';
+const HOST = 'http://localhost:6001/api/v1';
 // const HOST = 'http://test-bosssee.leanapp.cn/api/v1';
 
 
