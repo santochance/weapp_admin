@@ -199,7 +199,7 @@ export default class Region extends PureComponent {
                   hoverable
                   className={item.objectId === currentRegion.objectId
                     ? styles.activeCard : styles.card}
-                  cover={<img alt="" src={item.pic} onClick={() => this.handleSelect(item)} />}
+                  cover={<img alt="" src={typeof item.pic === 'object' ? item.pic.url : item.pic} onClick={() => this.handleSelect(item)} />}
                   actions={[
                     <a onClick={() => this.handleModalVisible(true, item)}>编辑</a>,
                     <Popconfirm title="是否要删除此项？" onConfirm={() => this.handleRemove(item)}>
