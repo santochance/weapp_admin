@@ -42,8 +42,8 @@ const controls = [
   }, {
     label: '相册图片',
     name: 'photos',
-    outputTransform: pics => pics[0],
     type: 'upload',
+    limit: 0,
     remarks: '图片比例为3 : 2, 建议尺寸为720 x 480',
   },
 ];
