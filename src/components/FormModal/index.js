@@ -35,7 +35,7 @@ export default class FormModal extends React.Component {
     form.validateFieldsAndScroll((err) => {
       if (!err) {
         const { onModalOk = () => {}, data, controls } = this.props;
-        let outputData = data ? this.getDirtyFieldValues(form)
+        const outputData = data ? this.getDirtyFieldValues(form)
           : form.getFieldsValue();
 
         controls.forEach((control) => {
@@ -47,13 +47,10 @@ export default class FormModal extends React.Component {
           if (control.type === 'upload') {
             value = this.handleUploadType(value);
           }
-
           if (control.outputTransform) {
-            outputData = {
-              ...outputData,
-              [key]: control.outputTransform(value),
-            };
+            value = control.outputTransform(value);
           }
+          outputData[key] = value;
         });
         onModalOk(outputData);
       }
