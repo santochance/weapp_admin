@@ -128,6 +128,9 @@ export const getRouterData = (app) => {
     '/unit/unitGroups': {
       component: dynamicWrapper(app, ['content'], () => import('../routes/UnitGroup/UnitGroup')),
     },
+    '/unit/units': {
+      component: dynamicWrapper(app, ['content'], () => import('../routes/Unit/Unit')),
+    },
 
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
