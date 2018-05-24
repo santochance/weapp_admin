@@ -19,15 +19,15 @@ const menuData = [{
   }],
 }, {
   name: '赛区管理',
-  icon: 'form',
+  icon: 'database',
   path: 'regions',
 }, {
   name: '报名管理',
-  icon: 'form',
+  icon: 'inbox',
   path: 'registrations',
 }, {
   name: '大赛信息',
-  icon: 'warning',
+  icon: 'file-text',
   path: 'articles',
 }, {
   name: '单位管理',
@@ -42,7 +42,7 @@ const menuData = [{
   }],
 }, {
   name: '导师管理',
-  icon: 'form',
+  icon: 'contacts',
   path: 'tutor',
   children: [{
     name: '导师团',
@@ -53,39 +53,27 @@ const menuData = [{
   }],
 }, {
   name: '投资人管理',
-  icon: 'profile',
+  icon: 'idcard',
   path: 'investors',
 }, {
-  name: '结果页',
-  icon: 'check-circle-o',
-  path: 'result',
-  hideInMenu: true,
-  children: [{
-    name: '成功',
-    path: 'success',
-  }, {
-    name: '失败',
-    path: 'fail',
-  }],
-}, {
   name: '合作机构',
-  icon: 'warning',
+  icon: 'api',
   path: 'organizations',
 }, {
   name: '参赛项目',
-  icon: 'warning',
+  icon: 'trophy',
   path: 'participants',
 }, {
   name: '新闻管理',
-  icon: 'warning',
+  icon: 'file-text',
   path: 'news',
 }, {
   name: '活动图片',
-  icon: 'warning',
+  icon: 'picture',
   path: 'albums',
 }, {
   name: '横幅管理',
-  icon: 'warning',
+  icon: 'credit-card',
   path: 'banners',
 }, {
   name: '使用文档',
