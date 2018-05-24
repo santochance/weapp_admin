@@ -59,9 +59,12 @@ function transformTree(list) {
     const { data, controls } = props;
     if (data) {
       return controls.reduce((obj, control) => {
-        let value = typeof control.dataIndex === 'function'
-          ? control.dataIndex(data)
-          : data[control.dataIndex];
+        const { dataIndex } = control;
+        let value = typeof dataIndex === 'function'
+          ? dataIndex(data)
+          : dataIndex
+            ? data[dataIndex]
+            : data[control.name];
         if (control.type === 'upload') {
           value = picFieldAdapter(value);
         }
