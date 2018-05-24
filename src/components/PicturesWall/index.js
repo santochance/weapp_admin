@@ -20,7 +20,7 @@ class PicturesWall extends React.Component {
 
   render() {
     const { previewVisible, previewImage } = this.state;
-    const { action, name, fileList, listType, onChange, limit } = this.props;
+    const { action, name, fileList, listType, onChange, limit, remarks } = this.props;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -28,21 +28,24 @@ class PicturesWall extends React.Component {
       </div>
     );
     return (
-      <div className="clearfix">
-        <Upload
-          listType={listType || 'picture-card'}
-          name={name}
-          action={action}
-          fileList={fileList}
-          onChange={onChange}
-          onPreview={this.handlePreview}
-          multiple
-        >
-          {limit && fileList && fileList.length >= limit ? null : uploadButton}
-        </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
+      <div>
+        <div className="clearfix">
+          <Upload
+            listType={listType || 'picture-card'}
+            name={name}
+            action={action}
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={this.handlePreview}
+            multiple
+          >
+            {limit && fileList && fileList.length >= limit ? null : uploadButton}
+          </Upload>
+          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+        </div>
+        <div style={{ color: '#8f8f8f' }}>{remarks}</div>
       </div>
     );
   }

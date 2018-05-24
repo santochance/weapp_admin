@@ -179,6 +179,7 @@ export default class QuickForm extends React.Component {
               name={control.uploadField || 'pics'}
               action={control.action || 'https://vc-weapp.leanapp.cn/api/v1/upload'}
               limit={1}
+              remarks={control.remarks}
             />
           )}
         </FormItem>
