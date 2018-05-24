@@ -26,40 +26,19 @@ const menuData = [{
   icon: 'form',
   path: 'registrations',
 }, {
-  name: '分类管理',
-  icon: 'global',
-  path: 'sorts',
+  name: '大赛信息',
+  icon: 'warning',
+  path: 'articles',
 }, {
-  name: '内容管理',
+  name: '单位管理',
   icon: 'table',
-  path: 'content',
+  path: 'unit',
   children: [{
-    name: '横幅',
-    path: 'banners',
+    name: '单位分组',
+    path: 'unitGroups',
   }, {
-    name: '文章',
-    path: 'articles',
-  }, {
-    name: '导师',
-    path: 'tutors',
-  }, {
-    name: '投资人',
-    path: 'investors',
-  }, {
-    name: '举办与组织单位',
-    path: 'sponsers',
-  }, {
-    name: '活动图片',
-    path: 'photos',
-  }, {
-    name: '合作机构',
-    path: 'organizations',
-  }, {
-    name: '企业',
-    path: 'enterprises',
-  }, {
-    name: '新闻',
-    path: 'news',
+    name: '单位',
+    path: 'units',
   }],
 }, {
   name: '导师管理',
@@ -70,50 +49,12 @@ const menuData = [{
     path: 'tutorGroups',
   }, {
     name: '导师',
-    // authority: 'admin',
     path: 'tutors',
   }],
 }, {
-  name: '列表页',
-  icon: 'table',
-  path: 'list',
-  hideInMenu: true,
-  children: [{
-    name: '查询表格',
-    path: 'table-list',
-  }, {
-    name: '标准列表',
-    path: 'basic-list',
-  }, {
-    name: '卡片列表',
-    path: 'card-list',
-  }, {
-    name: '搜索列表',
-    path: 'search',
-    children: [{
-      name: '搜索列表（文章）',
-      path: 'articles',
-    }, {
-      name: '搜索列表（项目）',
-      path: 'projects',
-    }, {
-      name: '搜索列表（应用）',
-      path: 'applications',
-    }],
-  }],
-}, {
-  name: '详情页',
+  name: '投资人管理',
   icon: 'profile',
-  path: 'profile',
-  hideInMenu: true,
-  children: [{
-    name: '基础详情页',
-    path: 'basic',
-  }, {
-    name: '高级详情页',
-    path: 'advanced',
-    authority: 'admin',
-  }],
+  path: 'investors',
 }, {
   name: '结果页',
   icon: 'check-circle-o',
@@ -127,39 +68,25 @@ const menuData = [{
     path: 'fail',
   }],
 }, {
-  name: '异常页',
+  name: '合作机构',
   icon: 'warning',
-  path: 'exception',
-  hideInMenu: true,
-  children: [{
-    name: '403',
-    path: '403',
-  }, {
-    name: '404',
-    path: '404',
-  }, {
-    name: '500',
-    path: '500',
-  }, {
-    name: '触发异常',
-    path: 'trigger',
-    hideInMenu: true,
-  }],
+  path: 'organizations',
 }, {
-  name: '账户',
-  icon: 'user',
-  path: 'user',
-  authority: 'guest',
-  children: [{
-    name: '登录',
-    path: 'login',
-  }, {
-    name: '注册',
-    path: 'register',
-  }, {
-    name: '注册结果',
-    path: 'register-result',
-  }],
+  name: '参赛项目',
+  icon: 'warning',
+  path: 'participants',
+}, {
+  name: '新闻管理',
+  icon: 'warning',
+  path: 'news',
+}, {
+  name: '活动图片',
+  icon: 'warning',
+  path: 'albums',
+}, {
+  name: '横幅管理',
+  icon: 'warning',
+  path: 'banners',
 }, {
   name: '使用文档',
   icon: 'book',
