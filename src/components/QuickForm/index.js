@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, TreeSelect } from 'antd';
 import PicturesWall from '../../components/PicturesWall';
+import MyEditor from '../../components/MyEditor';
 import picFieldAdapter from '../../utils/picFieldAdapter';
 import request from '../../utils/request';
 
@@ -179,6 +180,15 @@ export default class QuickForm extends React.Component {
               action={control.action || 'https://vc-weapp.leanapp.cn/api/v1/upload'}
               limit={1}
             />
+          )}
+        </FormItem>
+      );
+    } else if (control.type === 'richtext') {
+      return (
+        <FormItem {...formItemLayout} key={reactKey} label={control.label}>
+          {getFieldDecorator(control.name, {
+          })(
+            <MyEditor ueditorPath="/vendor/ueditor" />
           )}
         </FormItem>
       );
