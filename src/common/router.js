@@ -85,9 +85,6 @@ export const getRouterData = (app) => {
       // name: '工作台',
       // authority: 'admin',
     },
-    '/regions': {
-      component: dynamicWrapper(app, ['region'], () => import('../routes/Region/Region')),
-    },
     '/sorts': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Sort/Sort')),
     },
@@ -118,15 +115,17 @@ export const getRouterData = (app) => {
         component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Content/TableList')),
       },
     }), {}),
+
+    '/regions': {
+      component: dynamicWrapper(app, ['region'], () => import('../routes/Region/Region')),
+    },
     '/registrations': {
       component: dynamicWrapper(app, ['sort', 'content'], () => import('../routes/Registration/Registration')),
     },
-    '/tutor/tutorGroups': {
-      component: dynamicWrapper(app, ['content'], () => import('../routes/TutorGroup/TutorGroup')),
+    '/articles': {
+      component: dynamicWrapper(app, ['content'], () => import('../routes/Article/Article')),
     },
-    '/tutor/tutors': {
-      component: dynamicWrapper(app, ['content'], () => import('../routes/Tutor/Tutor')),
-    },
+
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
