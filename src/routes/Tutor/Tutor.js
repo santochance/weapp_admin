@@ -2,9 +2,13 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { Link } from 'dva/router';
 import TableList from '../../components/TableList';
-import styles from './Tutor.less';
 
 const columns = [
+  {
+    title: '导师头像',
+    dataIndex: 'pic',
+    render: (text, record) => <img src={typeof record.pic === 'object' ? record.pic.url : record.pic} alt={record.title} style={{ height: 50 }} />,
+  },
   {
     title: '导师名称',
     dataIndex: 'title',
@@ -16,7 +20,7 @@ const columns = [
   {
     title: '导师团',
     dataIndex: 'tutorGroup',
-    render: (text, record) => <Link to="/tutor/tutorGroups">{record.tutorGroup.title}</Link>,
+    render: (text, record) => <Link to="/tutor/tutorGroups">{record.tutorGroup && record.tutorGroup.title}</Link>,
   },
   {
     title: '更新时间',
@@ -29,7 +33,6 @@ const controls = [
   {
     label: '排序',
     name: 'order',
-    dataIndex: 'order',
     initialValue: 10,
   }, {
     label: '导师团',
@@ -37,46 +40,22 @@ const controls = [
     dataIndex: ({ tutorGroup }) => (typeof tutorGroup === 'object' ? tutorGroup.objectId : tutorGroup),
     type: 'select',
     source: '/tutorGroups',
-    rules: [
-      {
-        required: true,
-        message: '请选择导师团',
-      },
-    ],
+    rules: [{ required: true, message: '请选择导师团' }],
   }, {
     label: '导师名称',
     name: 'title',
-    dataIndex: 'title',
-    rules: [
-      {
-        required: true,
-        message: '请填写导师名称',
-      },
-    ],
+    rules: [{ required: true, message: '请填写导师名称' }],
   }, {
     label: '导师头衔',
     name: 'subTitle',
-    dataIndex: 'subTitle',
-    rules: [
-      {
-        required: true,
-        message: '请填写导师头衔',
-      },
-    ],
+    rules: [{ required: true, message: '请填写导师头衔' }],
   }, {
     label: '头像',
     name: 'pic',
-    dataIndex: 'pic',
     outputTransform: pics => pics[0],
     type: 'upload',
-    uploadField: '',
-    action: '',
-    rules: [
-      {
-        required: true,
-        message: '请上传头像',
-      },
-    ],
+    remarks: '图片比例为1 : 1, 建议尺寸为240 x 240',
+    rules: [{ required: true, message: '请上传导师头像' }],
   },
 ];
 
