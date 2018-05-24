@@ -137,6 +137,9 @@ export const getRouterData = (app) => {
     '/tutor/tutors': {
       component: dynamicWrapper(app, ['content'], () => import('../routes/Tutor/Tutor')),
     },
+    '/investors': {
+      component: dynamicWrapper(app, ['content'], () => import('../routes/Investor/Investor')),
+    },
 
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
