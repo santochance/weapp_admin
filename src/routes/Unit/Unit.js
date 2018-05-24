@@ -16,7 +16,7 @@ const columns = [
   {
     title: '单位分组',
     dataIndex: 'unitGroup',
-    render: (text, record) => <Link to="/unit/unitGroup">{record.unitGroup && record.unitGroup.title}</Link>,
+    render: (text, record) => <Link to="/unit/unitGroups">{record.unitGroup && record.unitGroup.title}</Link>,
   },
   {
     title: '排序',
@@ -35,6 +35,13 @@ const controls = [
     name: 'order',
     initialValue: 10,
   }, {
+    label: '单位分组',
+    name: 'unitGroup',
+    dataIndex: ({ unitGroup }) => (typeof unitGroup === 'object' ? unitGroup.objectId : unitGroup),
+    type: 'select',
+    source: '/unitGroups',
+    rules: [{ required: true, message: '请选择单位分组' }],
+  }, {
     label: '单位名称',
     name: 'title',
     rules: [{ required: true, message: '请填写单位名称' }],
@@ -49,10 +56,14 @@ const controls = [
   },
 ];
 
+const qs = {
+  include: 'unitGroup',
+};
+
 export default class Unit extends PureComponent {
   render() {
     return (
-      <TableList {...this.props} columns={columns} controls={controls} />
+      <TableList {...this.props} columns={columns} controls={controls} qs={qs} />
     );
   }
 }
