@@ -149,6 +149,9 @@ export const getRouterData = (app) => {
     '/news': {
       component: dynamicWrapper(app, ['content'], () => import('../routes/News/News')),
     },
+    '/albums': {
+      component: dynamicWrapper(app, ['content'], () => import('../routes/Album/Album')),
+    },
 
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
