@@ -95,6 +95,19 @@ export default class Region extends PureComponent {
     }
   }
 
+  handleUploadType = (files) => {
+    if (!files) return [];
+    return files.map((file) => {
+      if (!file.response || !file.status) {
+        return file;
+      } else if (file.status === 'done') {
+        const { url, uid, thumbnailUrl } = file.response;
+        return { url, uid, thumbnailUrl };
+      }
+      return undefined;
+    });
+  }
+
   handleModalOk = (formData) => {
     // 提取新增或更新内容
     let entry;
@@ -105,6 +118,12 @@ export default class Region extends PureComponent {
     }
 
     entry = this.normFormData(entry);
+
+    // 把pic字段转化为单个图片对象
+    if (entry.pic) {
+      const [pic] = this.handleUploadType(entry.pic);
+      entry.pic = pic;
+    }
 
     /* 填充分类数据 */
     if (entry.sort !== undefined) {
