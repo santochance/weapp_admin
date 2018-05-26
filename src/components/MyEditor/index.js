@@ -21,15 +21,15 @@ class MyEditor extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // console.log('# editor will receive props: curr %s, next %s', this.props.value, nextProps.value)
-    // console.log('value in?:', 'value' in this.props, 'value' in nextProps)
-    if ('value' in nextProps && this.props.value !== nextProps.value) {
-      this.content = nextProps.value
-      // 用户编辑的过程中，不会出现props.value为undefined的情况
-      // 当关闭ModalForm或打开ModalForm但没传入data, 即data为undefined时，会出现props.value为undefined的情况
-      if (nextProps.value === undefined || this.props.value === undefined) {
-        // ueditor.setContent()参数不能为undefined
-        this.ueditor.setContent(nextProps.value || '');
-      }
+
+    // 创建模式open或任意模式close时`props.value`为`undefined`
+    // 注意props即可能是由父组件传入的，也可能是用户输入或调用`setContent()`改变了编辑器内容传入的
+    if (!this.ueditor) return;
+
+    if (nextProps.value !== this.content) {
+      this.content = nextProps.value;
+      // `setContent(value)`的value不能是`undefined`
+      this.ueditor.setContent(nextProps.value || '');
     }
   }
 
@@ -88,7 +88,7 @@ class MyEditor extends React.Component {
     })
     this.ueditor.ready((ueditor) => {
       // ueditor.setContent()的参数不能为undefined
-      this.ueditor.setContent(this.props.value || '');
+      // this.ueditor.setContent(this.props.value || '');
     })
   }
 
