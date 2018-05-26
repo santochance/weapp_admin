@@ -81,11 +81,17 @@ class MyEditor extends React.Component {
     const { config, onChange, value } = this.props
     this.ueditor = window.UE.getEditor(this.containerID, Object.assign({ zIndex: 1200 }, config))
     this.ueditor.addListener('contentChange', () => {
-      this.content = this.ueditor.getContent()
-      if (onChange) {
-        onChange(this.ueditor.getContent())
+      const nextContent = this.ueditor.getContent();
+      // 在某个初始时刻`this.content`会是`undefined`
+      // 这里希望把它当作是''来与`nextContent`比较，判断编辑器内容是否touched, 即是否触发过`onChange`
+      const content = this.content || '';
+      if (content !== nextContent) {
+        this.content = nextContent;
+        if (onChange) {
+          onChange(nextContent);
+        }
       }
-    })
+    });
     this.ueditor.ready((ueditor) => {
       // ueditor.setContent()的参数不能为undefined
       // this.ueditor.setContent(this.props.value || '');
