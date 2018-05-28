@@ -6,6 +6,7 @@ const columns = [
   {
     title: '信息类型',
     dataIndex: 'kind',
+    render: (val) => <span>{val === 'intro' ? '大赛简介' : val === 'flow' ? '大赛流程' : val}</span>,
   },
   {
     title: '标题',
