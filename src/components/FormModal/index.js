@@ -21,12 +21,11 @@ export default class FormModal extends React.Component {
     if (!files) return [];
     return files.map((file) => {
       if (!file.response || !file.status) {
-        return file;
+        return file.url;
       } else if (file.status === 'done') {
-        const { url, uid, thumbnailUrl } = file.response;
-        return { url, uid, thumbnailUrl };
+        return file.response.url;
       }
-      return undefined;
+      return '';
     });
   }
 
