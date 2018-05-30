@@ -45,7 +45,7 @@ const controls = [
     name: 'desc',
     type: 'textarea',
   }, {
-    label: '项目项目入口图',
+    label: '项目入口图',
     name: 'pic',
     dataIndex: 'pic',
     outputTransform: pics => pics[0],
