@@ -23,6 +23,10 @@ const columns = [
     render: (text, record) => <Link to="/tutor/tutorGroups">{record.tutorGroup && record.tutorGroup.title}</Link>,
   },
   {
+    title: '排序',
+    dataIndex: 'order',
+  },
+  {
     title: '更新时间',
     dataIndex: 'updatedAt',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
