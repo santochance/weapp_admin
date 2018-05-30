@@ -24,9 +24,10 @@ class MyEditor extends React.Component {
 
     // 创建模式open或任意模式close时`props.value`为`undefined`
     // 注意props即可能是由父组件传入的，也可能是用户输入或调用`setContent()`改变了编辑器内容传入的
-    if (!this.ueditor) return;
+    // if (!this.ueditor) return;
 
     if (nextProps.value !== this.content) {
+      // this.content赋值必须在调用`setContent`之前
       this.content = nextProps.value;
       // `setContent(value)`的value不能是`undefined`
       this.ueditor.setContent(nextProps.value || '');
@@ -93,8 +94,16 @@ class MyEditor extends React.Component {
       }
     });
     this.ueditor.ready((ueditor) => {
+      /* 初始编辑模式（即MyEditor组件挂载后第一次打开是编辑模式)，
+       * 是不会触发componentWillReceiveProps，所以要在ueditor的`ready`
+       * 事件初始化编辑器的内容
+       *
+       * 调用`setContent()之后`就会触发ueidtor的`contentChange`事件
+       * this.content的赋值必须在调用`setContent()`之前
+       */
       // ueditor.setContent()的参数不能为undefined
-      // this.ueditor.setContent(this.props.value || '');
+      this.content = this.props.value || '';
+      this.ueditor.setContent(this.props.value || '');
     })
   }
 
