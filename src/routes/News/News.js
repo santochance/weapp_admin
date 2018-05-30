@@ -13,8 +13,9 @@ const columns = [
     dataIndex: 'title',
   },
   {
-    title: '发布时间',
+    title: '发布日期',
     dataIndex: 'publishedAt',
+    render: value => <span>{value && moment(value).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '排序',
@@ -41,7 +42,7 @@ const controls = [
     name: 'desc',
     type: 'textarea',
   }, {
-    label: '发布时间',
+    label: '发布日期',
     name: 'publishedAt',
     type: 'date',
   }, {

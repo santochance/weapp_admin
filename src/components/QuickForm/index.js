@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Input, TreeSelect } from 'antd';
+import { Form, Input, TreeSelect, DatePicker } from 'antd';
+import moment from 'moment';
 import PicturesWall from '../../components/PicturesWall';
 import MyEditor from '../../components/MyEditor';
 import picFieldAdapter from '../../utils/picFieldAdapter';
@@ -68,6 +69,9 @@ function transformTree(list) {
             : data[control.name];
         if (control.type === 'upload') {
           value = picFieldAdapter(value);
+        }
+        if (control.type === 'date') {
+          value = value ? moment(value) : value;
         }
         return Object.assign({}, obj, {
           [control.name]: Form.createFormField({ value }),
@@ -190,6 +194,15 @@ export default class QuickForm extends React.Component {
           {getFieldDecorator(control.name, {
           })(
             <MyEditor ueditorPath="/vendor/ueditor" />
+          )}
+        </FormItem>
+      );
+    } else if (control.type === 'date') {
+      return (
+        <FormItem {...formItemLayout} key={reactKey} label={control.label}>
+          {getFieldDecorator(control.name, {
+          })(
+            <DatePicker />
           )}
         </FormItem>
       );
