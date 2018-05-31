@@ -181,10 +181,9 @@ export default class RegionList extends PureComponent {
             renderItem={item => (item ? (
               <List.Item key={item.objectId}>
                 <Card
-                  hoverable
                   className={item.objectId === currentRegion.objectId
                     ? styles.activeCard : styles.card}
-                  cover={<img alt="" src={typeof item.pic === 'object' ? item.pic.url : item.pic} onClick={() => this.handleSelect(item)} />}
+                  cover={<img alt="" src={typeof item.pic === 'object' ? item.pic.url : item.pic} onClick={() => this.handleSelect(item)} style={{ cursor: 'pointer' }} />}
                   actions={[
                     <a onClick={() => this.handleModalVisible(true, item)}>编辑</a>,
                     <Popconfirm title="是否要删除此项？" onConfirm={() => this.handleRemove(item)}>
@@ -197,7 +196,16 @@ export default class RegionList extends PureComponent {
                     description={(
                       <div>
                         <div><span>{item.city}</span></div>
-                        <div>排序：<span>{item.order}</span></div>
+                        <div>
+                          排序：<span>{item.order}</span>
+                          <div style={{ float: 'right' }}>
+                            {item.enabled ? (
+                              <span style={{ color: '#333' }}>已启用</span>
+                            ) : (
+                              <span style={{ color: '#8f8f8f' }}>未启用</span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
                   />
