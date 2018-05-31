@@ -28,6 +28,7 @@ const controls = [
     label: '排序',
     name: 'order',
     initialValue: 10,
+    type: 'number',
   }, {
     label: '相册标题',
     name: 'title',

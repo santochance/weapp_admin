@@ -34,6 +34,7 @@ const controls = [
     label: '排序',
     name: 'order',
     initialValue: 10,
+    type: 'number',
   }, {
     label: '单位分组',
     name: 'unitGroup',

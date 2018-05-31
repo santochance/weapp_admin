@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, TreeSelect, DatePicker } from 'antd';
+import { Form, Input, InputNumber, TreeSelect, DatePicker } from 'antd';
 import moment from 'moment';
 import PicturesWall from '../../components/PicturesWall';
 import MyEditor from '../../components/MyEditor';
@@ -151,6 +151,17 @@ export default class QuickForm extends React.Component {
             rules: control.rules,
           })(
             <TextArea placeholder={control.placeholder} />
+          )}
+        </FormItem>
+      );
+    } else if (control.type === 'number') {
+      return (
+        <FormItem {...formItemLayout} key={reactKey} label={control.label}>
+          {getFieldDecorator(control.name, {
+            initialValue: control.initialValue,
+            rules: control.rules,
+          })(
+            <InputNumber placeholder={control.placeholder} />
           )}
         </FormItem>
       );
