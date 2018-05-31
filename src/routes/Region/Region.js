@@ -25,7 +25,11 @@ const controls = [
     outputTransform: pics => pics[0],
     type: 'upload',
     remarks: '图片比例为8 : 5, 建议尺寸为640 x 400',
-    rules: [{ required: true, message: '请上传赛区主图' }],
+    rules: [{ required: false, message: '请上传赛区主图' }],
+  }, {
+    label: '是否启用',
+    name: 'enabled',
+    type: 'switch',
   },
 ];
 
