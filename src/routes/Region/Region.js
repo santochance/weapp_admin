@@ -22,7 +22,7 @@ const controls = [
   }, {
     label: '赛区主图',
     name: 'pic',
-    outputTransform: pics => pics[0],
+    outputTransform: pics => pics[0] || '',
     type: 'upload',
     remarks: '图片比例为8 : 5, 建议尺寸为640 x 400',
     rules: [{ required: false, message: '请上传赛区主图' }],

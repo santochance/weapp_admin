@@ -2,20 +2,21 @@
 
 export default function picFieldAdapter(pics) {
   if (pics == null) return [];
-  const rst = Array.isArray(pics) ? pics : [pics];
-  return rst.map((pic, idx) => {
-    if (Object.prototype.toString.call(pic) !== '[object Object]') {
-      return ({
+  const photos = Array.isArray(pics) ? pics : [pics];
+  const rst = [];
+  photos.forEach((pic, idx) => {
+    if (!pic) return;
+    if (typeof pic === 'string') {
+      rst.push({
         url: pic,
         uid: `${Date.now() + idx}`,
       });
-    } else if (!('uid' in pic)) {
-      return ({
-        ...pic,
-        uid: `${Date.now() + idx}`,
+    } else if (Object.prototype.toString.call(pic) === '[object Object]') {
+      rst.push({
+        url: pic.url,
+        uid: pic.uid || `${Date.now() + idx}`,
       });
-    } else {
-      return pic;
     }
   });
+  return rst;
 }
