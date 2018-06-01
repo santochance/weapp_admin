@@ -2,11 +2,9 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
+import config from '../config';
 
-// const HOST = 'https://vc-weapp.leanapp.cn/api/v1';
-const HOST = 'http://localhost:6001/api/v1';
-// const HOST = 'http://test-bosssee.leanapp.cn/api/v1';
-
+const HOST = config.host;
 
 const codeMessage = {
   200: '服务器成功返回请求的数据',

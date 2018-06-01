@@ -9,8 +9,14 @@ import createLoading from 'dva-loading';
 import 'moment/locale/zh-cn';
 import FastClick from 'fastclick';
 import './rollbar';
+import config from './config';
 
 import './index.less';
+
+// 通过window对象传递上传api路径给ueditor
+// 将会在ueditor.config.js中被引用
+window.appHost = config.host;
+
 // 1. Initialize
 const app = dva({
   history: createHistory(),

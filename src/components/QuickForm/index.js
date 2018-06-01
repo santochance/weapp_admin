@@ -5,6 +5,7 @@ import PicturesWall from '../../components/PicturesWall';
 import MyEditor from '../../components/MyEditor';
 import picFieldAdapter from '../../utils/picFieldAdapter';
 import request from '../../utils/request';
+import config from '../../config';
 
 
 const { TextArea } = Input;
@@ -192,7 +193,7 @@ export default class QuickForm extends React.Component {
           })(
             <PicturesWall
               name={control.uploadField || 'pics'}
-              action={control.action || 'https://vc-weapp.leanapp.cn/api/v1/upload'}
+              action={control.action || config.host + '/upload'}
               limit={typeof control.limit === 'number' ? control.limit : 1}
               remarks={control.remarks}
             />
