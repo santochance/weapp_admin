@@ -24,7 +24,7 @@ class MyEditor extends React.Component {
 
     // 创建模式open或任意模式close时`props.value`为`undefined`
     // 注意props即可能是由父组件传入的，也可能是用户输入或调用`setContent()`改变了编辑器内容传入的
-    // if (!this.ueditor) return;
+    if (!this.ueditor) return;
 
     if (nextProps.value !== this.content) {
       // this.content赋值必须在调用`setContent`之前
