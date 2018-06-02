@@ -33,7 +33,7 @@ const controls = [
     name: 'pic',
     outputTransform: pics => pics[0],
     type: 'upload',
-    remarks: '图片宽度最少为750，高度不限',
+    remarks: '图片比例不限，但请保持统一。建议最少宽度为750',
     rules: [{ required: true, message: '请上传横幅图片' }],
   },
 ];
