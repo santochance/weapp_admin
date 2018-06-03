@@ -87,7 +87,7 @@ export default class QuickForm extends React.Component {
   }
 
   componentDidMount() {
-    const { controls } = this.props;
+    const { controls, region } = this.props;
     const { treeDataDict } = this.state;
 
     const setTreeDataDict = (key, data) => {
@@ -103,7 +103,8 @@ export default class QuickForm extends React.Component {
       // select类型如果有source属性，远程请求数据
       if (control.type === 'select') {
         if (control.source) {
-          request(control.source).then((res) => {
+          const sourceUrl = `${control.source}?region=${region.objectId}`;
+          request(sourceUrl).then((res) => {
             setTreeDataDict(control.name, transformTree(generateTreeData(res.data)));
           });
         } else {

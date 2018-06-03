@@ -324,7 +324,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const { sortName } = this;
-    const { content: { [sortName]: data = {} }, loading, controls, columns } = this.props;
+    const { content: { [sortName]: data = {} }, loading, controls, columns, region } = this.props;
     const { selectedRows, modalVisible, modalTitle, modalData } = this.state;
 
     const menu = (
@@ -390,6 +390,7 @@ export default class TableList extends PureComponent {
           data={modalData}
           controls={controls}
           sortId={this.sortId}
+          region={region}
         />
       </PageHeaderLayout>
     );

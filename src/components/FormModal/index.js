@@ -74,7 +74,7 @@ export default class FormModal extends React.Component {
   }
 
   render() {
-    const { modalTitle, modalVisible, data, onModalDataChange, controls } = this.props;
+    const { modalTitle, modalVisible, data, onModalDataChange, controls, region } = this.props;
 
     return (
       <Modal
@@ -92,6 +92,7 @@ export default class FormModal extends React.Component {
           data={data}
           controls={controls}
           onValuesChange={onModalDataChange}
+          region={region}
         />
       </Modal>
     );
